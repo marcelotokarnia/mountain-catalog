@@ -1,0 +1,42 @@
+{
+  "name": "mountain-catalog",
+  "version": "1.0.0",
+  "description": "A catalog of mountains near you with a bunch of filters. A study on Vue and Typescript",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "webpack",
+    "watch": "webpack --watch",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marcelotokarnia/mountain-catalog.git"
+  },
+  "keywords": [
+    "mountains",
+    "catalog",
+    "vue",
+    "typescript"
+  ],
+  "author": "Marcelo Tokarnia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marcelotokarnia/mountain-catalog/issues"
+  },
+  "homepage": "https://github.com/marcelotokarnia/mountain-catalog#readme",
+  "devDependencies": {
+    "babel-loader": "^7.1.4",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-stage-2": "^6.24.1",
+    "css-loader": "^0.28.11",
+    "ts-loader": "^4.3.0",
+    "typescript": "^2.8.3",
+    "vue": "^2.5.16",
+    "vue-loader": "^15.2.0",
+    "vue-template-compiler": "^2.5.16",
+    "vue2-google-maps": "^0.9.7",
+    "vuex": "^3.0.1",
+    "webpack": "^4.8.3",
+    "webpack-cli": "^2.1.3"
+  }
+}

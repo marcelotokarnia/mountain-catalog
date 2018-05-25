@@ -4,5 +4,6 @@ djangorestframework==3.8.2
 GDAL==2.2.4
 lxml==4.2.1
 psycopg2==2.7.4
+psycopg2-binary==2.7.4
 pyquery==1.2.4
 pytz==2018.4

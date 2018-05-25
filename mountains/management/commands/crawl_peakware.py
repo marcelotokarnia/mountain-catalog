@@ -8,7 +8,7 @@ def parse_value_if_exists(key, mountain):
   return '%s: %s\n' % (key, mountain.get(key)) if mountain.get(key) else ''
 
 def curiosities(mountain):
-  return "%s%s%s%s%s%s" % (
+  return "%s%s%s%s%s%s%s" % (
   'First ascent on %s by %s\n' % (
     mountain.get('Year first climbed'), mountain.get('First successful climber(s)')
   ) if mountain.get('Year first climbed') or mountain.get('First successful climber(s)') else '',
@@ -22,23 +22,26 @@ def curiosities(mountain):
 
 def transform(mountain):
   return {
-    'spot': Point(float(mountain['Latitude']), float(mountain['Longitude']),
-    'curiosities': curiosities(mountain)
+    'spot': Point(float(mountain['Latitude']), float(mountain['Longitude'])),
+    'curiosities': curiosities(mountain),
     'province': mountain.get('Province'),
     'difficulty': mountain.get('Difficulty'),
-    'elevation': int(float(mountain.get('Elevation (meters)')))
+    'elevation': int(float(mountain['Elevation (meters)'].replace(',', ''))) if mountain.get('Elevation (meters)') else 0,
     'name': mountain['name'],
     'country': mountain.get('Country'),
     'state': mountain.get('State'),
-    'region': mountain.get('Range/Region')
+    'region': mountain.get('Range/Region'),
   }
 
 class Command(BaseCommand):
   help = "Populate Mountain DB with Peakware Data"
 
+  def add_arguments(self, parser):
+    parser.add_argument('--start')
+    parser.add_argument('--stop')
+
   def handle(self, *args, **options):
-    RANGE = [int(i) for i in args[1:]]
-    for i in range(*RANGE):
+    for i in range(int(options['start']), int(options['stop'])):
       print("crawling %i" % i)
       q = pq(url='https://www.peakware.com/peaks.php?pk=%i' % (i))
       mountain = {'id': i}

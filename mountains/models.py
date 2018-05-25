@@ -13,3 +13,6 @@ class Mountain(BaseModel):
   country = models.CharField(max_length=128, blank=True, null=True)
   state = models.CharField(max_length=128, blank=True, null=True)
   region = models.CharField(max_length=128, blank=True, null=True)
+
+  def __str__(self):
+    return "%s: %s(%sm)-%s (%s, %s)" % (self.pk, self.name, self.elevation, self.country, self.spot.x, self.spot.y)

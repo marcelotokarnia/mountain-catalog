@@ -1,3 +1,6 @@
 from django.contrib import admin
+from mountains.models import Mountain
+from utils.admin_utils import RawIdAdminModel
 
-# Register your models here.
+
+admin.site.register(Mountain, RawIdAdminModel)

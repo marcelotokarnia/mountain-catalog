@@ -1,0 +1,10 @@
+query {
+  mountains {
+    properties {
+      name
+    }
+    geometry {
+      coordinates
+    }
+  }
+}

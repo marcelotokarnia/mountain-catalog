@@ -3,11 +3,13 @@ const webpack = require('webpack')
 const { VueLoaderPlugin } = require('vue-loader')
 
 module.exports = {
-  entry: './src/index.ts',
+  entry: {
+    build: './src/index.ts',
+  },
   output: {
-    path: path.resolve(__dirname, './dist'),
+    filename: '[name].js',
+    path: path.join(__dirname, '/dist'),
     publicPath: '/dist/',
-    filename: 'build.js'
   },
   module: {
     rules: [
@@ -35,6 +37,10 @@ module.exports = {
         options: {
           appendTsSuffixTo: [/\.vue$/],
         }
+      },
+      {
+        loader: 'graphql-tag/loader',
+        test: /\.(graphql|gql)$/,
       },
       {
         test: /\.scss$/,

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+{% load static from staticfiles %}
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Find out the biggest mountains around you">
+    <meta name="keywords" content="Django,Vue,Vuex,SPA,Javascript,Python,Graphql">
+    <meta name="author" content="Marcelo Tokarnia">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="Mountain Catalog">
+    <meta property="og:description" content="Find out the biggest mountains around you">
+    <meta property="og:image" content="https://avatars2.githubusercontent.com/u/1616391?s=460&v=4">
+    <meta property="og:url" content="https://github.com/marcelotokarnia/mountain-catalog">
+    <meta name="twitter:title" content="Mountain Catalog">
+    <meta name="twitter:description" content="Find out the biggest mountains around you">
+    <meta name="twitter:image" content="https://avatars2.githubusercontent.com/u/1616391?s=460&v=4">
+    <meta name="twitter:card" content="summary_large_image">
+    <title>Mountain Catalog</title>
+    <script>
+      var CSRFTOKEN = '{{csrf_token}}';
+    </script>
+  </head>
+
+  <body>
+    <div id="app"></div>
+    <script src="{% static "build.js" %}"></script>
+  </body>
+</html>

@@ -1,11 +1,10 @@
 import Vue from "vue"
 import { ApolloClient } from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
-import { concat, ApolloLink, split, Operation, NextLink } from 'apollo-link'
+import { concat, ApolloLink, Operation, NextLink } from 'apollo-link'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import VueApollo from 'vue-apollo'
 import * as VueGoogleMaps from "vue2-google-maps"
-import HelloComponent from "./components/Hello.vue"
 import Maps from "./components/Maps.vue"
 import GMAPS_KEY from "./google_maps_key"
 
@@ -68,8 +67,6 @@ let v = new Vue({
     el: "#app",
     template: `
     <div>
-        <div>Hello {{name}}!</div>
-        <hello-component :name="name" :initialEnthusiasm="5" />
         <maps />
     </div>`,
     data: {
@@ -77,7 +74,6 @@ let v = new Vue({
     },
     provide: apolloProvider.provide(),
     components: {
-        HelloComponent,
         Maps
     }
 })

@@ -2,6 +2,7 @@ query {
   mountains {
     properties {
       name
+      elevation
     }
     geometry {
       coordinates

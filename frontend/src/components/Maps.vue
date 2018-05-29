@@ -1,45 +1,49 @@
 <template>
-  <div>
-  <ul>
-    <li
-      :key="index"
-      v-for="(mount, index) in mountains"
-    >
-      {{mount.properties.name}}
-    </li>
-  </ul>
   <gmap-map
-    :center="{lat:10, lng:10}"
+    :center="center"
     :zoom="7"
     map-type-id="terrain"
     style="width: 500px; height: 300px"
   >
     <gmap-marker
       :key="index"
-      v-for="(m, index) in markers"
-      :position="m.position"
+      v-for="({name, elevation, lat, lng}, index) in mountains"
+      :position="{lat, lng}"
       :clickable="true"
       :draggable="true"
-      @click="center=m.position"
+      @click="center={lat, lng}"
     />
   </gmap-map>
-  </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue"
 import gql from 'graphql-tag'
+import { map } from 'ramda'
+import { ApolloQueryResult } from 'apollo-client'
+import { DataWithMountains } from '../queries/mountains'
+import { MountainsGraphql, MountainsFrontend } from '../../typings/mountains'
 const mountains = require('./mountains.graphql')
 
 export default Vue.extend({
     props: [],
     data() {
+
         return {
-          markers: [{position: {lat: 1.38, lng: 103.8}}, {position: {lat: 10, lng: 10}}]
+          center: {lat: 10, lng: 10},
+          mountains: [] as MountainsFrontend[],
         }
     },
     apollo: {
-      mountains
+      mountains: {
+        query: mountains,
+        loadingKey: 'loading',
+        result({ data: { mountains } } : ApolloQueryResult<DataWithMountains>) {
+          this.mountains = map<MountainsGraphql, MountainsFrontend>(({properties: {name, elevation}, geometry: {coordinates: [lat, lng]}}) => {
+            return {name, lat, lng, elevation}
+          })(mountains)
+        }
+      }
     },
     methods: {
     },

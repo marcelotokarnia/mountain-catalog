@@ -4,6 +4,14 @@
         "tslint:recommended"
     ],
     "jsRules": {},
-    "rules": {},
-    "rulesDirectory": []
+    "rules": {
+        "quotemark": [true, "single", "jsx-double"],
+        "semicolon": [true, "never"],
+        "trailing-comma": [true, {"multiline": "always", "singleline": "never"}]
+
+    },
+    "linterOptions": {
+        "comment": "Exclude sibling node_modules automatically",
+        "exclude": ["../../node_modules/**/*"]
+    }
 }

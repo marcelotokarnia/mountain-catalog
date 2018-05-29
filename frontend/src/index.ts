@@ -1,18 +1,18 @@
-import Vue from "vue"
-import { ApolloClient } from 'apollo-client'
-import { HttpLink } from 'apollo-link-http'
-import { concat, ApolloLink, Operation, NextLink } from 'apollo-link'
 import { InMemoryCache } from 'apollo-cache-inmemory'
+import { ApolloClient } from 'apollo-client'
+import { ApolloLink, concat, NextLink, Operation } from 'apollo-link'
+import { HttpLink } from 'apollo-link-http'
+import Vue from 'vue'
 import VueApollo from 'vue-apollo'
-import * as VueGoogleMaps from "vue2-google-maps"
-import Maps from "./components/Maps.vue"
-import GMAPS_KEY from "./google_maps_key"
+import * as VueGoogleMaps from 'vue2-google-maps'
+import Maps from './components/Maps.vue'
+import GMAPS_KEY from './google_maps_key'
 
 const link = new HttpLink({
-    uri: 'http://localhost:8000/graphql',
     fetchOptions: {
-        credentials: 'same-origin'
-    }
+        credentials: 'same-origin',
+    },
+    uri: 'http://localhost:8000/graphql',
 })
 
 const authMiddleware = new ApolloLink((operation: Operation, forward?: NextLink) => {
@@ -20,15 +20,15 @@ const authMiddleware = new ApolloLink((operation: Operation, forward?: NextLink)
     operation.setContext({
       headers: {
         'X-CSRFToken': CSRFTOKEN,
-      }
+      },
     })
-    return forward ? forward(operation): null
+    return forward ? forward(operation) : null
   })
 
 const apolloClient = new ApolloClient({
-    link: concat(authMiddleware, link),
     cache: new InMemoryCache(),
     connectToDevTools: true,
+    link: concat(authMiddleware, link),
 })
 
 const apolloProvider = new VueApollo({
@@ -62,19 +62,14 @@ Vue.use(VueGoogleMaps, {
  // installComponents: true,
 })
 
-
-let v = new Vue({
-    el: "#app",
+const v = new Vue({
+    components: {
+        Maps,
+    },
+    el: '#app',
+    provide: apolloProvider.provide(),
     template: `
     <div>
         <maps />
     </div>`,
-    data: {
-        name: "World"
-    },
-    provide: apolloProvider.provide(),
-    components: {
-        Maps
-    }
 })
-

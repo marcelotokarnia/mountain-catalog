@@ -19,7 +19,7 @@
 <script lang="ts">
 import Vue from "vue"
 import gql from 'graphql-tag'
-import { map } from 'ramda'
+import * as R from 'ramda'
 import { ApolloQueryResult } from 'apollo-client'
 import { DataWithMountains } from '../queries/mountains'
 import { MountainsGraphql, MountainsFrontend } from '../../typings/mountains'
@@ -39,7 +39,7 @@ export default Vue.extend({
         query: mountains,
         loadingKey: 'loading',
         result({ data: { mountains } } : ApolloQueryResult<DataWithMountains>) {
-          this.mountains = map<MountainsGraphql, MountainsFrontend>(({properties: {name, elevation}, geometry: {coordinates: [lat, lng]}}) => {
+          this.mountains = R.map<MountainsGraphql, MountainsFrontend>(({properties: {name, elevation}, geometry: {coordinates: [lat, lng]}}) => {
             return {name, lat, lng, elevation}
           })(mountains)
         }

@@ -32,12 +32,14 @@ interface Position {
 }
 interface MapsInstance {
   center: Position
+  distance: number
   mountains: MountainsFrontend[]
   infoWindowPos: Position
   currentMidx: number
   infoWinOpen: boolean
   infoContent: string
   infoOptions: object
+  skip: boolean
 }
 
 import Vue from "vue"
@@ -46,18 +48,20 @@ import * as R from 'ramda'
 import { ApolloQueryResult } from 'apollo-client'
 import { DataWithMountains } from '../queries/mountains'
 import { MountainsGraphql, MountainsFrontend } from '../../typings/mountains'
-const mountains = require('./mountains.graphql')
+const mountains = require('../queries/mountains.graphql')
 
 export default Vue.extend({
     props: [],
     data(): MapsInstance {
         return {
           center: {lat: 10, lng: 10},
+          distance: 3500,
           mountains: [] as MountainsFrontend[],
           infoWindowPos: {lat: 0, lng: 0},
           currentMidx: 0,
           infoWinOpen: false,
           infoContent: '',
+          skip: true,
           infoOptions: {
             pixelOffset: {
               width: 0,
@@ -71,10 +75,20 @@ export default Vue.extend({
       mountains: {
         query: mountains,
         loadingKey: 'loading',
+        variables() {
+          return {
+            distance: this.distance,
+            lat: this.center.lat,
+            lng: this.center.lng
+          }
+        },
         result({ data: { mountains } } : ApolloQueryResult<DataWithMountains>) {
           this.mountains = R.map<MountainsGraphql, MountainsFrontend>(({properties: {name, elevation}, geometry: {coordinates: [lat, lng]}}) => {
             return {name, lat, lng, elevation}
           })(mountains)
+        },
+        skip() {
+          return this.skip
         }
       }
     },
@@ -95,6 +109,15 @@ export default Vue.extend({
     },
     computed: {
     },
+    created: function(){
+      	window.navigator.geolocation.getCurrentPosition(
+          ({coords: {latitude: lat, longitude: lng}}) => {
+            this.center = {lat, lng}
+            this.skip = false
+            // m.me = {windowOptions: {visible: false}, coords: angular.copy(m.map.center), key: 'me', options: {icon: '/static/icons/map_markers/bluedot.png'}}
+          }
+        )
+    }
 });
 </script>
 

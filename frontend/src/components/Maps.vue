@@ -5,18 +5,41 @@
     map-type-id="terrain"
     style="width: 500px; height: 300px"
   >
+    <gmap-info-window
+      :options="infoOptions"
+      :position="infoWindowPos"
+      :opened="infoWinOpen"
+      @closeclick="infoWinOpen=false"
+    >
+      {{infoContent}}
+    </gmap-info-window>
+
     <gmap-marker
       :key="index"
-      v-for="({name, elevation, lat, lng}, index) in mountains"
-      :position="{lat, lng}"
+      v-for="(m, index) in mountains"
+      :position="{lat: m.lat, lng: m.lng}"
       :clickable="true"
       :draggable="true"
-      @click="center={lat, lng}"
+      @click="toggleInfoWindow(m, index)"
     />
   </gmap-map>
 </template>
 
 <script lang="ts">
+interface Position {
+  lat: number
+  lng: number
+}
+interface MapsInstance {
+  center: Position
+  mountains: MountainsFrontend[]
+  infoWindowPos: Position
+  currentMidx: number
+  infoWinOpen: boolean
+  infoContent: string
+  infoOptions: object
+}
+
 import Vue from "vue"
 import gql from 'graphql-tag'
 import * as R from 'ramda'
@@ -27,11 +50,21 @@ const mountains = require('./mountains.graphql')
 
 export default Vue.extend({
     props: [],
-    data() {
-
+    data(): MapsInstance {
         return {
           center: {lat: 10, lng: 10},
           mountains: [] as MountainsFrontend[],
+          infoWindowPos: {lat: 0, lng: 0},
+          currentMidx: 0,
+          infoWinOpen: false,
+          infoContent: '',
+          infoOptions: {
+            pixelOffset: {
+              width: 0,
+              height: -35,
+            },
+          },
+
         }
     },
     apollo: {
@@ -46,6 +79,19 @@ export default Vue.extend({
       }
     },
     methods: {
+      toggleInfoWindow: function({lat, lng, name, elevation}: MountainsFrontend, idx: number): void {
+        this.infoWindowPos = {lat, lng};
+        this.infoContent = `${name}: ${elevation}m`;
+        //check if its the same marker that was selected if yes toggle
+        if (this.currentMidx == idx) {
+          this.infoWinOpen = !this.infoWinOpen;
+        }
+        //if different marker set infowindow to open and reset current marker index
+        else {
+          this.infoWinOpen = true;
+          this.currentMidx = idx;
+        }
+      }
     },
     computed: {
     },

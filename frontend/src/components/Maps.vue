@@ -1,7 +1,7 @@
 <template>
   <gmap-map
     :center="center"
-    :zoom="7"
+    :zoom="5"
     map-type-id="terrain"
     style="width: 500px; height: 300px"
   >
@@ -11,7 +11,8 @@
       :opened="infoWinOpen"
       @closeclick="infoWinOpen=false"
     >
-      {{infoContent}}
+      <div>{{infoContent1}}</div>
+      <div>{{infoContent2}}</div>
     </gmap-info-window>
 
     <gmap-marker
@@ -37,7 +38,8 @@ interface MapsInstance {
   infoWindowPos: Position
   currentMidx: number
   infoWinOpen: boolean
-  infoContent: string
+  infoContent1: string
+  infoContent2: string
   infoOptions: object
   skip: boolean
 }
@@ -55,12 +57,13 @@ export default Vue.extend({
     data(): MapsInstance {
         return {
           center: {lat: 10, lng: 10},
-          distance: 3500,
+          distance: 5000,
           mountains: [] as MountainsFrontend[],
           infoWindowPos: {lat: 0, lng: 0},
           currentMidx: 0,
           infoWinOpen: false,
-          infoContent: '',
+          infoContent1: '',
+          infoContent2: '',
           skip: true,
           infoOptions: {
             pixelOffset: {
@@ -83,8 +86,8 @@ export default Vue.extend({
           }
         },
         result({ data: { mountains } } : ApolloQueryResult<DataWithMountains>) {
-          this.mountains = R.map<MountainsGraphql, MountainsFrontend>(({properties: {name, elevation}, geometry: {coordinates: [lat, lng]}}) => {
-            return {name, lat, lng, elevation}
+          this.mountains = R.map<MountainsGraphql, MountainsFrontend>(({properties: {distance, name, elevation}, geometry: {coordinates: [lat, lng]}}) => {
+            return {name, lat, lng, elevation, distance}
           })(mountains)
         },
         skip() {
@@ -93,9 +96,10 @@ export default Vue.extend({
       }
     },
     methods: {
-      toggleInfoWindow: function({lat, lng, name, elevation}: MountainsFrontend, idx: number): void {
+      toggleInfoWindow: function({lat, lng, name, elevation, distance}: MountainsFrontend, idx: number): void {
         this.infoWindowPos = {lat, lng};
-        this.infoContent = `${name}: ${elevation}m`;
+        this.infoContent1 = `${name}: ${elevation}m`;
+        this.infoContent2 = `${distance.toFixed(2)}km away`;
         //check if its the same marker that was selected if yes toggle
         if (this.currentMidx == idx) {
           this.infoWinOpen = !this.infoWinOpen;
@@ -114,7 +118,6 @@ export default Vue.extend({
           ({coords: {latitude: lat, longitude: lng}}) => {
             this.center = {lat, lng}
             this.skip = false
-            // m.me = {windowOptions: {visible: false}, coords: angular.copy(m.map.center), key: 'me', options: {icon: '/static/icons/map_markers/bluedot.png'}}
           }
         )
     }

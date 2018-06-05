@@ -3,6 +3,7 @@ query($distance: Int, $lat: Float, $lng: Float) {
     properties {
       name
       elevation
+      distance
     }
     geometry {
       coordinates

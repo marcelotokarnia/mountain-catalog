@@ -3,6 +3,7 @@ import {Geometry} from './geometry.d'
 interface MountainProperties {
   name: string
   elevation: number
+  distance: number
 }
 
 interface MountainsGraphql {
@@ -15,6 +16,7 @@ interface MountainsFrontend {
   elevation: number
   lat: number
   lng: number
+  distance: number
 }
 
 export {

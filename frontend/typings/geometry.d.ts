@@ -1,8 +1,8 @@
-interface Geometry {
+interface IGeometry {
   coordinates: [number, number]
   type: string
 }
 
 export {
-  Geometry
+  IGeometry,
 }

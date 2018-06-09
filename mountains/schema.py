@@ -23,17 +23,30 @@ class Query(object):
         MountainType,
         distance=graphene.Int(),
         lat=graphene.Float(),
-        lng=graphene.Float()
+        lng=graphene.Float(),
+        elevation=graphene.Int(),
     )
 
     def resolve_mountains(self, info, **args):
         distance = args.get('distance')
+        elevation = args.get('elevation')
         lat = args.get('lat')
         lng = args.get('lng')
-        pnt = GEOSGeometry('POINT(%.6f %.6f)' % (lat, lng), srid=4326)
-        queryset = Mountain.objects.filter(
-            spot__distance_lte=(pnt, D(km=distance))
-        ).annotate(distance=Distance('spot', pnt))
+        queryset = Mountain.objects.all()
+        if elevation is not None:
+            queryset = queryset.filter(
+                elevation__gte=elevation
+            )
+        if lat is not None and lng is not None:
+            pnt = GEOSGeometry('POINT(%.6f %.6f)' % (lat, lng), srid=4326)
+            if distance is not None:
+                queryset = queryset.filter(
+                    spot__distance_lte=(pnt, D(km=distance))
+                )
+            queryset = queryset.annotate(distance=Distance('spot', pnt))
+        results = []
         for mount in queryset:
-            mount.distance = mount.distance.km
-        return queryset
+            if hasattr(mount, 'distance'):
+                mount.distance = mount.distance.km
+            results.append(mount)
+        return results

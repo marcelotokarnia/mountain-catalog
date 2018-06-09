@@ -25,6 +25,9 @@
   },
   "homepage": "https://github.com/marcelotokarnia/mountain-catalog#readme",
   "devDependencies": {
+    "@fimbul/valtyr": "^0.10.0",
+    "@fimbul/ve": "^0.10.0",
+    "@fimbul/wotan": "^0.10.0",
     "@types/node": "^10.1.2",
     "@types/ramda": "^0.25.30",
     "apollo-cache-inmemory": "^1.2.1",

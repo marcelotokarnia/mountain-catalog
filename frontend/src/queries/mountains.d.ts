@@ -1,9 +1,9 @@
-import { MountainsGraphql } from '../../typings/mountains.d'
+import { IMountainsGraphql } from '../../typings/mountains.d'
 
-interface DataWithMountains {
-  mountains: MountainsGraphql[]
+interface IDataWithMountains {
+  mountains: IMountainsGraphql[]
 }
 
 export {
-  DataWithMountains
+  IDataWithMountains,
 }

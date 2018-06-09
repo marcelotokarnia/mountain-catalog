@@ -1,17 +1,17 @@
-import {Geometry} from './geometry.d'
+import {IGeometry} from './geometry.d'
 
-interface MountainProperties {
+interface IMountainProperties {
   name: string
   elevation: number
   distance: number
 }
 
-interface MountainsGraphql {
-  properties: MountainProperties
-  geometry: Geometry
+interface IMountainsGraphql {
+  properties: IMountainProperties
+  geometry: IGeometry
 }
 
-interface MountainsFrontend {
+interface IMountainsFrontend {
   name: string
   elevation: number
   lat: number
@@ -20,6 +20,6 @@ interface MountainsFrontend {
 }
 
 export {
-  MountainsGraphql,
-  MountainsFrontend
+  IMountainsGraphql,
+  IMountainsFrontend,
 }

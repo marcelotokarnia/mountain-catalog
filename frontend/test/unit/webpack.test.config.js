@@ -3,24 +3,24 @@ const webpack = require('webpack')
 const { VueLoaderPlugin } = require('vue-loader')
 
 module.exports = {
-  context: path.resolve(__dirname),
-  entry: {
-    build: './src/index.ts',
-  },
-  output: {
-    filename: '[name].js',
-    path: path.join(__dirname, '/dist'),
-    publicPath: '/dist/',
-  },
+  mode: 'development',
   resolve: {
     extensions: ['.js', '.ts', '.json', '.vue'],
     alias: {
-      '@components': path.resolve(__dirname, './src/components'),
+      '@components': path.resolve(__dirname, '../../src/components'),
       'vue$': 'vue/dist/vue.esm.js'
     }
   },
   module: {
     rules: [
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+        options: {
+          presets: ['es2015'],
+        },
+      },
       {
         test: /\.vue$/,
         loader: 'vue-loader',
@@ -40,7 +40,7 @@ module.exports = {
       },
       {
         test: /\.d\.ts$/,
-        loader: 'ignore-loader',
+        loader: 'ignore-loader'
       },
       {
         test: /\.tsx?$/,
@@ -98,6 +98,7 @@ if (process.env.NODE_ENV === 'production') {
   // http://vue-loader.vuejs.org/en/workflow/production.html
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.DefinePlugin({
+      'CSRFTOKEN': 'ABACATE',
       'process.env': {
         NODE_ENV: '"production"'
       }

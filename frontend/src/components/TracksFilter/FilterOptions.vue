@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-interface FilterOptionsInstance {
+interface IFilterOptionsInstance {
   distance: number
   elevation: number
 }
@@ -35,20 +35,21 @@ import FilterOptions from './FilterOptions.vue'
 const mountains = require('../../queries/mountains.graphql')
 
 export default Vue.extend({
-    props: ['filterMountains'],
-    data(): FilterOptionsInstance {
+    data(): IFilterOptionsInstance {
         return {
           distance: 10000,
           elevation: 4000,
         }
-    },
-    methods: {
     },
     computed: {
     },
     created() {
       this.filterMountains(this.distance, this.elevation)
     },
+    methods: {
+    },
+    name: 'FilterOptions',
+    props: ['filterMountains'],
 })
 </script>
 

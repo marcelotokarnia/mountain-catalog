@@ -109,6 +109,7 @@ export default Vue.extend({
       this.skip = false
       },
   },
+  name: 'TracksFilter',
   props: [],
 })
 </script>

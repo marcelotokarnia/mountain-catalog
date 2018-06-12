@@ -2,9 +2,10 @@
     "compilerOptions": {
         "outDir": "./built/",
         "sourceMap": true,
-        "baseUrl": ".",
+        "baseUrl": "./",
         "paths": {
-          "*": [ "./typings/*" ]
+          "@components/*": ["src/components/*"],
+          "*": ["typings/*"]
         },
         "strict": true,
         "noImplicitReturns": true,
@@ -13,7 +14,8 @@
         "target": "es5"
     },
     "include": [
-        "./src/**/*"
+        "./src/**/*",
+        "./test/**/*"
     ]
 }
 

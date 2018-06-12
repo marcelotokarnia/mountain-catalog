@@ -1,3 +1,5 @@
+import Maps from '@components/Maps.vue'
+import TracksFilter from '@components/TracksFilter'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloClient } from 'apollo-client'
 import { ApolloLink, concat, NextLink, Operation } from 'apollo-link'
@@ -5,8 +7,6 @@ import { HttpLink } from 'apollo-link-http'
 import Vue from 'vue'
 import VueApollo from 'vue-apollo'
 import * as VueGoogleMaps from 'vue2-google-maps'
-import Maps from './components/Maps.vue'
-import TracksFilter from './components/TracksFilter'
 import GMAPS_KEY from './google_maps_key'
 
 const HAS_NET = false
@@ -21,12 +21,12 @@ const link = new HttpLink({
 const authMiddleware = new ApolloLink((operation: Operation, forward?: NextLink) => {
     // add the authorization to the headers
     operation.setContext({
-      headers: {
-        'X-CSRFToken': CSRFTOKEN,
-      },
+        headers: {
+        'X-CSRFToken': CSRFTOKEN || 'csrf-token-not-set',
+        },
     })
     return forward ? forward(operation) : null
-  })
+    })
 
 const apolloClient = new ApolloClient({
     cache: new InMemoryCache(),

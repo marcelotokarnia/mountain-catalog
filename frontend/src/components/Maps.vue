@@ -27,16 +27,16 @@
 </template>
 
 <script lang='ts'>
-  interface Position {
+  interface IPosition {
     lat: number
     lng: number
   }
 
-  interface MapsInstance {
-    center: Position
+  interface IMapsInstance {
+    center: IPosition
     distance: number
     mountains: IMountainsFrontend[]
-    infoWindowPos: Position
+    infoWindowPos: IPosition
     currentMidx: number
     infoWinOpen: boolean
     infoContent1: string
@@ -51,75 +51,77 @@
   import Vue from 'vue'
   import { IMountainsFrontend, IMountainsGraphql } from '../../typings/mountains'
   import { IDataWithMountains } from '../queries/mountains'
-  const mountains = require('../queries/mountains.graphql')
+  const mountainsQuery = require('../queries/mountains.graphql')
 
   export default Vue.extend({
-      props: [],
-      data(): MapsInstance {
-          return {
-            center: {lat: 10, lng: 10},
-            distance: 5000,
-            mountains: [] as IMountainsFrontend[],
-            infoWindowPos: {lat: 0, lng: 0},
-            currentMidx: 0,
-            infoWinOpen: false,
-            infoContent1: '',
-            infoContent2: '',
-            skip: true,
-            infoOptions: {
-              pixelOffset: {
-                width: 0,
-                height: -35,
-              },
-            },
-
-          }
-      },
-      apollo: {
-        mountains: {
-          query: mountains,
+    apollo: {
+      mountains: {
         loadingKey: 'loading',
-          variables() {
-            return {
-              distance: this.distance,
-              lat: this.center.lat,
-              lng: this.center.lng,
-            }
-          },
-          result({ data: { mountains } }: ApolloQueryResult<IDataWithMountains>) {
-            this.mountains = R.map<IMountainsGraphql, IMountainsFrontend>(({properties: {distance, name, elevation}, geometry: {coordinates: [lat, lng]}}) => {
+        query: mountainsQuery,
+        result({ data: { mountains } }: ApolloQueryResult<IDataWithMountains>) {
+          this.mountains = R.map<IMountainsGraphql, IMountainsFrontend>(
+            ({properties: {distance, name, elevation}, geometry: {coordinates: [lat, lng]}}) => {
               return {name, lat, lng, elevation, distance}
-            })(mountains)
-          },
-          skip() {
-            return this.skip
-          },
+            },
+          )(mountains)
         },
-      },
-      methods: {
-        toggleInfoWindow({lat, lng, name, elevation, distance}: IMountainsFrontend, idx: number): void {
-          this.infoWindowPos = {lat, lng}
-          this.infoContent1 = `${name}: ${elevation}m`
-          this.infoContent2 = `${distance.toFixed(2)}km away`
-          // check if its the same marker that was selected if yes toggle
-          if (this.currentMidx == idx) {
-            this.infoWinOpen = !this.infoWinOpen
-          } else {
-            this.infoWinOpen = true
-            this.currentMidx = idx
+        skip() {
+          return this.skip
+        },
+        variables() {
+          return {
+            distance: this.distance,
+            lat: this.center.lat,
+            lng: this.center.lng,
           }
         },
       },
-      computed: {
-      },
-      created() {
-          window.navigator.geolocation.getCurrentPosition(
-            ({coords: {latitude: lat, longitude: lng}}) => {
-              this.center = {lat, lng}
-              this.skip = false
+    },
+    computed: {
+    },
+    created() {
+        window.navigator.geolocation.getCurrentPosition(
+          ({coords: {latitude: lat, longitude: lng}}) => {
+            this.center = {lat, lng}
+            this.skip = false
+          },
+        )
+    },
+    data(): IMapsInstance {
+        return {
+          center: {lat: 10, lng: 10},
+          currentMidx: 0,
+          distance: 5000,
+          infoContent1: '',
+          infoContent2: '',
+          infoOptions: {
+            pixelOffset: {
+              height: -35,
+              width: 0,
             },
-          )
+          },
+          infoWinOpen: false,
+          infoWindowPos: {lat: 0, lng: 0},
+          mountains: [] as IMountainsFrontend[],
+          skip: true,
+        }
+    },
+    methods: {
+      toggleInfoWindow({lat, lng, name, elevation, distance}: IMountainsFrontend, idx: number): void {
+        this.infoWindowPos = {lat, lng}
+        this.infoContent1 = `${name}: ${elevation}m`
+        this.infoContent2 = `${distance.toFixed(2)}km away`
+        // check if its the same marker that was selected if yes toggle
+        if (this.currentMidx === idx) {
+          this.infoWinOpen = !this.infoWinOpen
+        } else {
+          this.infoWinOpen = true
+          this.currentMidx = idx
+        }
       },
+    },
+    name: 'Maps',
+    props: [],
   })
 </script>
 

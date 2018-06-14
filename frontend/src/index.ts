@@ -9,7 +9,7 @@ import VueApollo from 'vue-apollo'
 import * as VueGoogleMaps from 'vue2-google-maps'
 import GMAPS_KEY from './google_maps_key'
 
-const HAS_NET = false
+const HAS_NET = true
 
 const link = new HttpLink({
     fetchOptions: {

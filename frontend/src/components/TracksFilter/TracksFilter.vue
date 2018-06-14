@@ -35,8 +35,7 @@ import { ApolloQueryResult } from 'apollo-client'
 import gql from 'graphql-tag'
 import * as R from 'ramda'
 import Vue from 'vue'
-import { IMountainsFrontend, IMountainsGraphql } from '../../../typings/mountains'
-import { IDataWithMountains } from '../../queries/mountains'
+import { IMountainsFrontend } from '../../../typings/mountains'
 import FilterOptions from './FilterOptions.vue'
 import FilterSort from './FilterSort.vue'
 
@@ -53,24 +52,6 @@ export default Vue.extend({
           lat,
           lng,
         }
-      },
-      result({ data: { mountains } }: ApolloQueryResult<IDataWithMountains>) {
-        this.mountains = R.map<IMountainsGraphql, IMountainsFrontend>(
-          ({
-            properties: {
-              distance,
-              name,
-              elevation,
-            },
-            geometry: {
-              coordinates: [
-                lat, lng,
-              ],
-            },
-          }) => {
-          return {name, lat, lng, elevation, distance}
-          },
-        )(mountains)
       },
       skip() {
         return this.skip

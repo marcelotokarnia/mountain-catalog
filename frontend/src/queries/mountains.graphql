@@ -1,12 +1,9 @@
 query($distance: Int, $lat: Float, $lng: Float, $elevation: Int) {
   mountains(distance: $distance, lat: $lat, lng: $lng, elevation: $elevation) {
-    properties {
-      name
-      elevation
-      distance
-    }
-    geometry {
-      coordinates
-    }
+    name
+    elevation
+    distance
+    lat
+    lng
   }
 }

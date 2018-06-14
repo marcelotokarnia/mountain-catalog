@@ -1,5 +1,4 @@
 import graphene
-import graphql_geojson
 from mountains.models import Mountain
 from django.contrib.gis.measure import D
 from django.contrib.gis.db.models.functions import Distance
@@ -11,11 +10,19 @@ def my_convert_function(field, registry=None):
     return field.km
 
 
-class MountainType(graphql_geojson.GeoJSONType):
+class MountainType(graphene.ObjectType):
     distance = graphene.Float()
-    class Meta:
-        model = Mountain
-        geojson_field = 'spot'
+    lat = graphene.Float()
+    lng = graphene.Float()
+    elevation = graphene.Int()
+    name = graphene.String()
+    def __init__(self, mountain):
+        if hasattr(mountain, 'distance'):
+            self.distance = float('%.2f' % mountain.distance.km)
+        self.lat = mountain.spot.x
+        self.lng = mountain.spot.y
+        self.name = mountain.name
+        self.elevation = mountain.elevation
 
 
 class Query(object):
@@ -46,7 +53,5 @@ class Query(object):
             queryset = queryset.annotate(distance=Distance('spot', pnt))
         results = []
         for mount in queryset:
-            if hasattr(mount, 'distance'):
-                mount.distance = mount.distance.km
-            results.append(mount)
+            results.append(MountainType(mount))
         return results

@@ -51,9 +51,14 @@
   import Vue from 'vue'
   import { IMountainsFrontend } from '../../typings/mountains'
   const mountainsQuery = require('../queries/mountains.graphql')
+  const helloQuery = require('../queries/hello.graphql')
 
   export default Vue.extend({
     apollo: {
+      hello: {
+        query: helloQuery,
+        loadingKey: 'loadingHello',
+      },
       mountains: {
         loadingKey: 'loading',
         query: mountainsQuery,
@@ -72,12 +77,23 @@
     computed: {
     },
     created() {
-        window.navigator.geolocation.getCurrentPosition(
-          ({coords: {latitude: lat, longitude: lng}}) => {
-            this.center = {lat, lng}
-            this.skip = false
-          },
-        )
+      window.navigator.geolocation.getCurrentPosition(
+        ({coords: {latitude: lat, longitude: lng}}) => {
+          this.center = {lat, lng}
+          this.skip = false
+        },
+      )
+      this.$apollo
+        .mutate({
+          mutation: gql`
+            mutation($msg: String!) {
+              updateHello(message: $msg) @client
+            }
+          `,
+          variables: {
+            msg: 'hello from link-state!'
+          }
+        })
     },
     data(): IMapsInstance {
         return {

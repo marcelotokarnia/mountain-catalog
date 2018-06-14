@@ -4,10 +4,12 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloClient } from 'apollo-client'
 import { ApolloLink, concat, NextLink, Operation } from 'apollo-link'
 import { HttpLink } from 'apollo-link-http'
+import { withClientState } from 'apollo-link-state'
 import Vue from 'vue'
 import VueApollo from 'vue-apollo'
 import * as VueGoogleMaps from 'vue2-google-maps'
 import GMAPS_KEY from './google_maps_key'
+import { resolvers, defaults } from './linkstate'
 
 const HAS_NET = true
 
@@ -28,10 +30,18 @@ const authMiddleware = new ApolloLink((operation: Operation, forward?: NextLink)
     return forward ? forward(operation) : null
     })
 
+const cache = new InMemoryCache()
+
+const stateLink = withClientState({
+    cache,
+    defaults,
+    resolvers,
+})
+
 const apolloClient = new ApolloClient({
-    cache: new InMemoryCache(),
+    cache,
     connectToDevTools: true,
-    link: concat(authMiddleware, link),
+    link: ApolloLink.from([stateLink, authMiddleware, link]),
 })
 
 const apolloProvider = new VueApollo({

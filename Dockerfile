@@ -1,17 +1,14 @@
 FROM marcelotokarnia/trackpedia:0.0.1
 
+MAINTAINER Marcelo Tokarnia <marcelo.tokarnia@gmail.com>
+
 WORKDIR /app
 
 ADD . /app
 
-RUN apt-get install -y git
-
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
-RUN . .env
+COPY docker/uwsgi.ini uwsgi.ini
+COPY docker/uwsgi_params /uwsgi/uwsgi_params
 
-EXPOSE 8000
-
-ENV NAME Trackpedia
-
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+ENTRYPOINT ["docker/entrypoint.sh"]

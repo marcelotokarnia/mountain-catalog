@@ -52,21 +52,24 @@ class Command(BaseCommand):
             q = pq(url='https://www.peakware.com/peaks.php?pk=%i' % (i))
             mountain = {'id': i}
             trs = q('#overview table tr')
+            print(len(trs))
             if len(trs):
                 for tr in trs:
                     try:
+                        print(str(tr))
                         key = pq(tr)('th').text().replace(' \n ', ' ').replace('\n', '').replace(':', '').strip()
                         value = pq(tr)('td').text().replace(' \n ', ' ').replace('\n', '')
+                        print(key, value)
                         mountain[key] = value
                     except UnicodeDecodeError:
                         print('error unicode on mountain %i %s' % (i, key))
-                    try:
-                        mountain['name'] = q('h1').text()
-                    except UnicodeDecodeError:
-                        print('error unicode on mountain %i NAME' % i)
-                    try:
-                        mountain['description'] = q('#peakDescription').text()
-                    except UnicodeDecodeError:
-                        print('error unicode on mountain %i DESCRIPTION' % i)
+                try:
+                    mountain['name'] = q('h1').text()
+                except UnicodeDecodeError:
+                    print('error unicode on mountain %i NAME' % i)
+                try:
+                    mountain['description'] = q('#peakDescription').text()
+                except UnicodeDecodeError:
+                    print('error unicode on mountain %i DESCRIPTION' % i)
 
-                    Mountain.objects.update_or_create(id=mountain['id'], defaults=transform(mountain))
+                Mountain.objects.update_or_create(id=mountain['id'], defaults=transform(mountain))

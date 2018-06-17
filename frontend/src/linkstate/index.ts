@@ -1,3 +1,4 @@
+import { IMountains } from '@typings/mountains'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 
 interface IResolverObject {
@@ -22,23 +23,24 @@ interface IDefaultObject {
 }
 
 const defaults: IDefaultObject = {
-  hello: {
-    __typename: 'Hello',
-    msg: 'world',
+  smountains: {
+    __typename: 'SMountains',
+    mountains: [] as IMountains[],
   },
 }
 
 const resolvers: IResolverObject = {
   Mutation: {
-    updateHello(_: any, { message }: any, { cache }: IContext): void {
+    updateMountains(_: any, { mountains }: any, { cache }: IContext): null {
       const data = {
-        hello: {
-          __typename: 'Hello',
-          msg: message,
+        smountains: {
+          __typename: 'SMountains',
+          mountains,
         },
       }
 
-      return cache.writeData({ data })
+      cache.writeData({ data })
+      return null
     },
   },
 }

@@ -25,17 +25,19 @@ interface IPosition {
 interface ITracksFilterInstance {
   reference?: IPosition
   distance?: number
-  elevation?: number
-  mountains: IMountainsFrontend[]
+  elevationMin?: number
+  elevationMax?: number
+  mountains: IMountains[]
   skip: boolean
 }
 
-const mountainsQuery = require('../../queries/mountains.graphql')
+const mountainsQuery = require('@queries/mountains.graphql')
+const mountainsMutation = require('@mutations/mountains.graphql')
+import { IDataMountains, IMountains } from '@typings/mountains'
 import { ApolloQueryResult } from 'apollo-client'
 import gql from 'graphql-tag'
 import * as R from 'ramda'
 import Vue from 'vue'
-import { IMountainsFrontend } from '../../../typings/mountains'
 import FilterOptions from './FilterOptions.vue'
 import FilterSort from './FilterSort.vue'
 
@@ -45,13 +47,21 @@ export default Vue.extend({
       loadingKey: 'loading',
       query: mountainsQuery,
       variables() {
-        const { distance, elevation, reference: { lat, lng } } = this
         return {
-          distance,
-          elevation,
-          lat,
-          lng,
+          distance: this.distance,
+          elevation: this.elevationMin,
+          lat: this.reference.lat,
+          lng: this.reference.lng,
         }
+      },
+      result( { data: { mountains } }: ApolloQueryResult<IDataMountains>) {
+        this.mountains = mountains
+        this.$apollo.mutate({
+          mutation: mountainsMutation,
+          variables: {
+            mountains,
+          },
+        })
       },
       skip() {
         return this.skip
@@ -60,35 +70,43 @@ export default Vue.extend({
   },
   components: {
     FilterOptions,
+    FilterSort,
   },
   computed: {
   },
   created() {
-      // window.navigator.geolocation.getCurrentPosition(
-      //   ({coords: {latitude: lat, longitude: lng}}) => {
-      //     this.reference = {lat, lng}
-      //   }
-      // )
+      window.navigator.geolocation.getCurrentPosition(
+        ({coords: {latitude: lat, longitude: lng}}) => {
+          this.reference = {lat, lng}
+          if (this.distance) {
+            this.skip = false
+          }
+        },
+      )
   },
   data(): ITracksFilterInstance {
       return {
-        mountains: [] as IMountainsFrontend[],
+        mountains: [] as IMountains[],
         skip: true,
       }
   },
   methods: {
-    filterMountains(distance: number, elevation: number): void {
+    filterMountains(distance: number, elevationMin: number, elevationMax: number): void {
       this.distance = distance
-      this.elevation = elevation
-      this.reference = {lat: -45, lng: -21}
-      this.skip = false
-      },
-      sortMountains(distance: number, elevation: number): void {
-      this.distance = distance
-      this.elevation = elevation
-      this.reference = {lat: -45, lng: -21}
-      this.skip = false
-      },
+      this.elevationMin = elevationMin
+      if (this.reference) {
+        this.skip = false
+        this.$apollo.queries.mountains.refetch({
+          distance: this.distance,
+          elevation: this.elevationMin,
+          lat: this.reference.lat,
+          lng: this.reference.lng,
+        })
+      }
+    },
+    sortMountains(distance: number, elevationMin: number): void {
+      return
+    },
   },
   name: 'TracksFilter',
   props: [],

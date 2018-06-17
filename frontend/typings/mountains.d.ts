@@ -1,6 +1,8 @@
-import {IGeometry} from './geometry.d'
+interface IDataMountains {
+  mountains: IMountains[]
+}
 
-interface IMountainsFrontend {
+interface IMountains {
   name: string
   elevation: number
   lat: number
@@ -9,5 +11,6 @@ interface IMountainsFrontend {
 }
 
 export {
-  IMountainsFrontend,
+  IMountains,
+  IDataMountains,
 }

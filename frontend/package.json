@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack",
     "watch": "webpack --watch --mode=development",
-    "lint": "node_modules/@fimbul/wotan/bin/main.js",
+    "lint": "wotan --fix",
     "test": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js"
   },
   "repository": {

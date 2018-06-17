@@ -17,7 +17,7 @@
 
     <gmap-marker
       :key="index"
-      v-for="(m, index) in mountains"
+      v-for="(m, index) in smountains"
       :position="{lat: m.lat, lng: m.lng}"
       :clickable="true"
       :draggable="false"
@@ -34,8 +34,7 @@
 
   interface IMapsInstance {
     center: IPosition
-    distance: number
-    mountains: IMountainsFrontend[]
+    smountains: IMountains[]
     infoWindowPos: IPosition
     currentMidx: number
     infoWinOpen: boolean
@@ -45,32 +44,23 @@
     skip: boolean
   }
 
+  import { IDataMountains, IMountains } from '@typings/mountains'
   import { ApolloQueryResult } from 'apollo-client'
   import gql from 'graphql-tag'
   import * as R from 'ramda'
   import Vue from 'vue'
-  import { IMountainsFrontend } from '../../typings/mountains'
-  const mountainsQuery = require('../queries/mountains.graphql')
-  const helloQuery = require('../queries/hello.graphql')
+  const mountainsState = require('../queries/mountainsState.graphql')
 
   export default Vue.extend({
     apollo: {
-      hello: {
-        query: helloQuery,
-        loadingKey: 'loadingHello',
-      },
-      mountains: {
+      smountains: {
         loadingKey: 'loading',
-        query: mountainsQuery,
+        query: mountainsState,
         skip() {
           return this.skip
         },
-        variables() {
-          return {
-            distance: this.distance,
-            lat: this.center.lat,
-            lng: this.center.lng,
-          }
+        result( { data: { smountains: { mountains } } }: ApolloQueryResult<any>) {
+          this.smountains = mountains
         },
       },
     },
@@ -83,23 +73,11 @@
           this.skip = false
         },
       )
-      this.$apollo
-        .mutate({
-          mutation: gql`
-            mutation($msg: String!) {
-              updateHello(message: $msg) @client
-            }
-          `,
-          variables: {
-            msg: 'hello from link-state!'
-          }
-        })
     },
     data(): IMapsInstance {
         return {
           center: {lat: 10, lng: 10},
           currentMidx: 0,
-          distance: 5000,
           infoContent1: '',
           infoContent2: '',
           infoOptions: {
@@ -110,12 +88,12 @@
           },
           infoWinOpen: false,
           infoWindowPos: {lat: 0, lng: 0},
-          mountains: [] as IMountainsFrontend[],
           skip: true,
+          smountains: [] as IMountains[],
         }
     },
     methods: {
-      toggleInfoWindow({lat, lng, name, elevation, distance}: IMountainsFrontend, idx: number): void {
+      toggleInfoWindow({lat, lng, name, elevation, distance}: IMountains, idx: number): void {
         this.infoWindowPos = {lat, lng}
         this.infoContent1 = `${name}: ${elevation}m`
         this.infoContent2 = `${distance.toFixed(2)}km away`

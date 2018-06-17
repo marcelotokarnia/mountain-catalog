@@ -1,0 +1,3 @@
+mutation($mountains: String) {
+  updateMountains(mountains: $mountains) @client
+}

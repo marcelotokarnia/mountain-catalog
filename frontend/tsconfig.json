@@ -5,6 +5,9 @@
         "baseUrl": "./",
         "paths": {
           "@components/*": ["src/components/*"],
+          "@typings/*": ["typings/*"],
+          "@queries/*": ["src/queries/*"],
+          "@mutations/*": ["src/mutations/*"],
           "*": ["typings/*"]
         },
         "strict": true,

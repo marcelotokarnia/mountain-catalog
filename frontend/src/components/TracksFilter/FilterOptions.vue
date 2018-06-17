@@ -6,7 +6,7 @@
         id="input-filter-distance"
         type="number"
         v-model="distance"
-        @change="filterMountains(distance, elevation)"
+        @change="filterMountains(+distance, +elevationMin)"
       />
     </div>
     <div>
@@ -14,8 +14,8 @@
       <input
         id="input-filter-elevation"
         type="number"
-        v-model="elevation"
-        @change="filterMountains(distance, elevation)"
+        v-model="elevationMin"
+        @change="filterMountains(+distance, +elevationMin)"
       />
     </div>
   </div>
@@ -24,7 +24,8 @@
 <script lang="ts">
 interface IFilterOptionsInstance {
   distance: number
-  elevation: number
+  elevationMin: number
+  elevationMax: number
 }
 
 import { ApolloQueryResult } from 'apollo-client'
@@ -37,14 +38,16 @@ const mountains = require('../../queries/mountains.graphql')
 export default Vue.extend({
     data(): IFilterOptionsInstance {
         return {
-          distance: 10000,
-          elevation: 4000,
+          distance: 1000,
+          elevationMax: 5000,
+          elevationMin: 1000,
         }
     },
     computed: {
     },
     created() {
-      this.filterMountains(this.distance, this.elevation)
+      const { distance, elevationMin, elevationMax } = this
+      this.filterMountains(distance, elevationMin, elevationMax)
     },
     methods: {
     },

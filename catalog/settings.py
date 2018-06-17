@@ -11,10 +11,10 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -25,7 +25,7 @@ SECRET_KEY = '5xdv688mq8f^@4l1mf%e&wb^*vt6^+9w(p7h9#dqi^jzcg4(s0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', '1') == '1'
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '206.189.199.113']
 
 
 # Application definition
@@ -86,14 +86,10 @@ WSGI_APPLICATION = 'catalog.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': os.getenv('DB_NAME', 'not_set'),
-        'USER': os.getenv('DB_USER', 'not_set'),
-        'PASSWORD': os.getenv('DB_PASS', 'not_set'),
-        'HOST': os.getenv('DB_HOST', 'not_set'),
-        'PORT': os.getenv('DB_PORT', 'not_set'),
-    }
+    'default': dj_database_url.config(
+        default=os.getenv('DATABASE_URL', 'not_set'),
+        conn_max_age=500
+    )
 }
 
 
@@ -134,3 +130,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.getenv('DJANGO_STATIC_ROOT', BASE_DIR)

@@ -6,9 +6,6 @@ export DB_NAME=catalog
 export DB_USER=catalog
 export DB_HOST=localhost
 export DB_PORT=5432
-export UWSGI_PORT=443
-export SOCKET_FILE=uwsgi.sock
-export STATS_PORT=1717
 
 function waitpidkilled {
     pid=$1
@@ -35,8 +32,9 @@ if [ "$1" = '--prod' ]; then
     export DJANGO_STATIC_ROOT=/uwsgi/static
     $APP/manage.py collectstatic --noinput
     $APP/manage.py migrate --noinput
-    uwsgi --ini $APP/uwsgi.ini --socket "/uwsgi/$SOCKET_FILE" --http ":$UWSGI_PORT" --stats ":$STATS_PORT"
+    uwsgi --ini $APP/uwsgi.ini
     touch /uwsgi/uwsgi.log
+    service nginx start
     tail -f /uwsgi/uwsgi.log
     exit $?
 fi

@@ -17,7 +17,7 @@ const link = new HttpLink({
     fetchOptions: {
         credentials: 'same-origin',
     },
-    uri: 'http://localhost:8000/graphql',
+    uri: '/graphql',
 })
 
 const authMiddleware = new ApolloLink((operation: Operation, forward?: NextLink) => {

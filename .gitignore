@@ -110,3 +110,4 @@ dist
 node_modules
 
 google_maps_key.ts
+docker/foobar.*

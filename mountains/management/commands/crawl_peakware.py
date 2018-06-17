@@ -1,4 +1,6 @@
 # coding: utf-8
+import sys
+import traceback
 from django.core.management.base import BaseCommand
 from pyquery import PyQuery as pq
 from mountains.models import Mountain
@@ -52,14 +54,11 @@ class Command(BaseCommand):
             q = pq(url='https://www.peakware.com/peaks.php?pk=%i' % (i))
             mountain = {'id': i}
             trs = q('#overview table tr')
-            print(len(trs))
             if len(trs):
                 for tr in trs:
                     try:
-                        print(str(tr))
                         key = pq(tr)('th').text().replace(' \n ', ' ').replace('\n', '').replace(':', '').strip()
                         value = pq(tr)('td').text().replace(' \n ', ' ').replace('\n', '')
-                        print(key, value)
                         mountain[key] = value
                     except UnicodeDecodeError:
                         print('error unicode on mountain %i %s' % (i, key))
@@ -72,4 +71,8 @@ class Command(BaseCommand):
                 except UnicodeDecodeError:
                     print('error unicode on mountain %i DESCRIPTION' % i)
 
-                Mountain.objects.update_or_create(id=mountain['id'], defaults=transform(mountain))
+                try:
+                    Mountain.objects.update_or_create(id=mountain['id'], defaults=transform(mountain))
+                except Exception as e:
+                    exc_type, exc_value, exc_traceback = sys.exc_info()
+                    print(repr(traceback.format_exception(exc_type, exc_value, exc_traceback)))

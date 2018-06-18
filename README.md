@@ -1,15 +1,33 @@
-LOCAL SETUP
+# Trekkpedia
 
-https://docs.docker.com/install/linux/docker-ce/ubuntu/#docker-ee-customers
+## How to hack locally
 
-https://askubuntu.com/questions/1030179/package-docker-ce-has-no-installation-candidate-in-18-04
+[TL;DR](./docs/LOCAL_SETUP_TLDR.md)
 
-sudo su postgres
+[Explained version](./docs/LOCAL_SETUP_EXPLAINED.md)
 
-createuser -d -SRP catalog #digite a senha
+## How to set your docker production environment
 
-createdb -O catalog catalog
+[Production environment](./docs/PRODUCTION_ENVIRONMENT.md)
 
-docker run --env-file=docker.env --network=host -it marcelotokarnia/trackpedia:0.0.8 --prod
+## About the project
 
-Deployed at https://206.189.199.113/
+A `Vue` and `Typescript` application which you can search and filter mountains next to you and have hints on how to conquer them.
+
+This application assets are built with `Webpack`.
+
+All requests are made through `Graphql` (`Vue Apollo` on the frontend and `Django Graphene` on the backend) to communicate with the `Python / Django` backend and the `Postgis` database.
+
+The local state management is powered by `Apollo Link State`, Styling is powered by `Tachyons` functional CSS and `styllus`
+
+The application is served through generated `Docker` images, `uwsgi` server and balanced by `nginx` (which also server static assets)
+
+Unit tests are powered by `Karma (with mocha & chai)` on the frontend and `Django Nose` on the backend.
+
+~~E2E tests are powered by `cypress`~~ (not yet)
+
+Lint is made with `PEP8` (python), `TSLINT` (typescript), `ESLINT` (js), `@FIMBUL/WOTAN/VALTYR/VE`(vue)
+
+Author: [Marcelo Tokarnia](https://www.github.com/marcelotokarnia)
+
+Deployed at: [trackpedia@Umbler](https://206.189.199.113/)

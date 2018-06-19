@@ -28,7 +28,6 @@ interface ITracksFilterInstance {
   elevationMin?: number
   elevationMax?: number
   mountains: IMountains[]
-  skip: boolean
 }
 
 const mountainsQuery = require('@queries/mountains.graphql')
@@ -46,14 +45,6 @@ export default Vue.extend({
     mountains: {
       loadingKey: 'loading',
       query: mountainsQuery,
-      variables() {
-        return {
-          distance: this.distance,
-          elevation: this.elevationMin,
-          lat: this.reference.lat,
-          lng: this.reference.lng,
-        }
-      },
       result( { data: { mountains } }: ApolloQueryResult<IDataMountains>) {
         this.mountains = mountains
         this.$apollo.mutate({
@@ -63,8 +54,8 @@ export default Vue.extend({
           },
         })
       },
-      skip() {
-        return this.skip
+      skip(){
+        return true
       },
     },
   },
@@ -75,11 +66,17 @@ export default Vue.extend({
   computed: {
   },
   created() {
+      this.reference = {lat: -22, lng: -45}
       window.navigator.geolocation.getCurrentPosition(
         ({coords: {latitude: lat, longitude: lng}}) => {
           this.reference = {lat, lng}
           if (this.distance) {
-            this.skip = false
+            this.$apollo.queries.mountains.refetch({
+              distance: {min: undefined, max: this.distance},
+              elevation: {min: this.elevationMin, max: this.elevationMax},
+              position: {lat: this.reference.lat, lng: this.reference.lng},
+            })
+            this.$apollo.queries.mountains.skip = false
           }
         },
       )
@@ -87,7 +84,6 @@ export default Vue.extend({
   data(): ITracksFilterInstance {
       return {
         mountains: [] as IMountains[],
-        skip: true,
       }
   },
   methods: {
@@ -95,13 +91,12 @@ export default Vue.extend({
       this.distance = distance
       this.elevationMin = elevationMin
       if (this.reference) {
-        this.skip = false
         this.$apollo.queries.mountains.refetch({
-          distance: this.distance,
-          elevation: this.elevationMin,
-          lat: this.reference.lat,
-          lng: this.reference.lng,
+          distance: {min: undefined, max: this.distance},
+          elevation: {min: this.elevationMin, max: this.elevationMax},
+          position: {lat: this.reference.lat, lng: this.reference.lng},
         })
+        this.$apollo.queries.mountains.skip = false
       }
     },
     sortMountains(distance: number, elevationMin: number): void {

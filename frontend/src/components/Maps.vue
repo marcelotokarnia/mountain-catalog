@@ -49,7 +49,7 @@
   import gql from 'graphql-tag'
   import * as R from 'ramda'
   import Vue from 'vue'
-  const mountainsState = require('../queries/mountainsState.graphql')
+  const mountainsState = require('@queries/mountainsState.graphql')
 
   export default Vue.extend({
     apollo: {

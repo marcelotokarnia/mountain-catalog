@@ -1,5 +1,5 @@
-query($distance: Int, $lat: Float, $lng: Float, $elevation: Int) {
-  mountains(distance: $distance, lat: $lat, lng: $lng, elevation: $elevation) {
+query($distance: MinMaxInt, $position: Position, $elevation: MinMaxInt) {
+  mountains(distance: $distance, position: $position, elevation: $elevation) {
     name
     elevation
     distance

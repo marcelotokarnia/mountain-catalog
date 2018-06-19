@@ -25,31 +25,61 @@ class MountainType(graphene.ObjectType):
         self.elevation = mountain.elevation
 
 
-class Query(object):
+class SortingOptions(graphene.InputObjectType):
+    param = graphene.String()
+    reverse = graphene.Boolean()
+
+
+class MinMaxInt(graphene.InputObjectType):
+    min = graphene.Int()
+    max = graphene.Int()
+
+
+class Position(graphene.InputObjectType):
+    lat = graphene.Float()
+    lng = graphene.Float()
+
+    @property
+    def point(self):
+        return GEOSGeometry('POINT(%.6f %.6f)' % (self.lat, self.lng), srid=4326)
+
+
+class Query(graphene.ObjectType):
     mountains = graphene.List(
         MountainType,
-        distance=graphene.Int(),
-        lat=graphene.Float(),
-        lng=graphene.Float(),
-        elevation=graphene.Int(),
+        distance=MinMaxInt(),
+        position=Position(),
+        elevation=MinMaxInt(),
+        sort=SortingOptions()
     )
 
     def resolve_mountains(self, info, **args):
         distance = args.get('distance')
         elevation = args.get('elevation')
-        lat = args.get('lat')
-        lng = args.get('lng')
+        position = args.get('position')
+        sort = args.get('sort')
+
         queryset = Mountain.objects.all()
         if elevation is not None:
-            queryset = queryset.filter(
-                elevation__gte=elevation
-            )
-        if lat is not None and lng is not None:
-            pnt = GEOSGeometry('POINT(%.6f %.6f)' % (lat, lng), srid=4326)
-            if distance is not None:
+            if elevation.min is not None:
                 queryset = queryset.filter(
-                    spot__distance_lte=(pnt, D(km=distance))
+                    elevation__gte=elevation.min
                 )
+            if elevation.max is not None:
+                queryset = queryset.filter(
+                    elevation__lte=elevation.max
+                )
+        if position is not None:
+            pnt = position.point
+            if distance is not None:
+                if distance.max is not None:
+                    queryset = queryset.filter(
+                        spot__distance_lte=(pnt, D(km=distance.max))
+                    )
+                if distance.min is not None:
+                    queryset = queryset.filter(
+                        spot__distance_gte=(pnt, D(km=distance.min))
+                    )
             queryset = queryset.annotate(distance=Distance('spot', pnt))
         results = []
         for mount in queryset:

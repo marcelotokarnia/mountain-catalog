@@ -1,4 +1,4 @@
-# TREKKPEDI
+# Trekkpedia
 
 ## Production Environment
 

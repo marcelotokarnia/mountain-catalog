@@ -1,9 +1,12 @@
 query($distance: MinMaxInt, $position: Position, $elevation: MinMaxInt) {
   mountains(distance: $distance, position: $position, elevation: $elevation) {
+    id
     name
     elevation
     distance
-    lat
-    lng
+    position {
+      lat
+      lng
+    }
   }
 }

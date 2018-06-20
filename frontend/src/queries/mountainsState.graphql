@@ -1,11 +1,14 @@
 query {
   smountains @client {
     mountains {
+      id
       name
       elevation
       distance
-      lat
-      lng
+      position {
+        lat
+        lng
+      }
     }
   }
 }

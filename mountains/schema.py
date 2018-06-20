@@ -10,19 +10,29 @@ def my_convert_function(field, registry=None):
     return field.km
 
 
-class MountainType(graphene.ObjectType):
-    distance = graphene.Float()
+class PositionType(graphene.ObjectType):
     lat = graphene.Float()
     lng = graphene.Float()
+
+    def __init__(self, point):
+        if point:
+            self.lat = point.x
+            self.lng = point.y
+
+class MountainType(graphene.ObjectType):
+    id = graphene.ID()
+    distance = graphene.Float()
+    position = graphene.Field(PositionType)
     elevation = graphene.Int()
     name = graphene.String()
+
     def __init__(self, mountain):
         if hasattr(mountain, 'distance'):
             self.distance = float('%.2f' % mountain.distance.km)
-        self.lat = mountain.spot.x
-        self.lng = mountain.spot.y
+        self.position = PositionType(mountain.spot)
         self.name = mountain.name
         self.elevation = mountain.elevation
+        self.id = mountain.id
 
 
 class SortingOptions(graphene.InputObjectType):

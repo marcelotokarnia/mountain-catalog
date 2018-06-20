@@ -1,16 +1,18 @@
+import { IPosition } from '@typings/geo'
+
 interface IDataMountains {
-  mountains: IMountains[]
+  mountains: IMountain[]
 }
 
-interface IMountains {
+interface IMountain {
+  id: number
   name: string
   elevation: number
-  lat: number
-  lng: number
+  position: IPosition
   distance: number
 }
 
 export {
-  IMountains,
+  IMountain,
   IDataMountains,
 }

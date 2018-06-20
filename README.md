@@ -30,4 +30,4 @@ Lint is made with `PEP8` (python), `TSLINT` (typescript), `ESLINT` (js), `@FIMBU
 
 Author: [Marcelo Tokarnia](https://www.github.com/marcelotokarnia)
 
-Deployed at: [trackpedia@Umbler](https://206.189.199.113/)
+Deployed at: [trekkpedia@Umbler](https://www.trekkpedia.com/)

@@ -2,7 +2,7 @@
   <div>
     <div style="display: flex;">
       <Maps style="flex: 1;" />
-      <TracksFilter style="flex: 1;" />
+      <TrekksFilter style="flex: 1;" />
     </div>
 
     <Umbler />
@@ -11,14 +11,14 @@
 </template>
 
 <script lang="ts">
-    import Maps from '@components/Maps.vue'
-    import TracksFilter from '@components/TracksFilter'
+    import Maps from '@components/Maps'
+    import TrekksFilter from '@components/TrekksFilter'
     import Umbler from '@components/Umbler.vue'
     import Vue from 'vue'
     export default Vue.extend({
     components: {
       Maps,
-      TracksFilter,
+      TrekksFilter,
       Umbler,
     },
     name: 'App',

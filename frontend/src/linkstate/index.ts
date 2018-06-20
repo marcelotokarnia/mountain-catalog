@@ -1,4 +1,4 @@
-import { IMountains } from '@typings/mountains'
+import { IMountain } from '@typings/mountains'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 
 interface IResolverObject {
@@ -25,7 +25,7 @@ interface IDefaultObject {
 const defaults: IDefaultObject = {
   smountains: {
     __typename: 'SMountains',
-    mountains: [] as IMountains[],
+    mountains: [] as IMountain[],
   },
 }
 

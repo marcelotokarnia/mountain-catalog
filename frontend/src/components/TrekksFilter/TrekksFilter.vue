@@ -4,8 +4,8 @@
     <FilterSort :sortMountains="sortMountains" />
     <ul>
       <li
-        :key="index"
-        v-for="({lat, lng, distance, name, elevation}, index) in mountains"
+        :key="id"
+        v-for="{id, position: {lat, lng}, distance, name, elevation} in mountains"
         style="padding: 5px;"
       >
         <p>Name: {{name}}</p>
@@ -27,12 +27,12 @@ interface ITracksFilterInstance {
   distance?: number
   elevationMin?: number
   elevationMax?: number
-  mountains: IMountains[]
+  mountains: IMountain[]
 }
 
 const mountainsQuery = require('@queries/mountains.graphql')
 const mountainsMutation = require('@mutations/mountains.graphql')
-import { IDataMountains, IMountains } from '@typings/mountains'
+import { IDataMountains, IMountain } from '@typings/mountains'
 import { ApolloQueryResult } from 'apollo-client'
 import gql from 'graphql-tag'
 import * as R from 'ramda'
@@ -83,7 +83,7 @@ export default Vue.extend({
   },
   data(): ITracksFilterInstance {
       return {
-        mountains: [] as IMountains[],
+        mountains: [] as IMountain[],
       }
   },
   methods: {

@@ -41,6 +41,16 @@ def transform(mountain):
     }
 
 
+def try_populate_mountain(trs, mountain, i):
+    for tr in trs:
+        try:
+            key = pq(tr)('th').text().replace(' \n ', ' ').replace('\n', '').replace(':', '').strip()
+            value = pq(tr)('td').text().replace(' \n ', ' ').replace('\n', '')
+            mountain[key] = value
+        except UnicodeDecodeError:
+            print('error unicode on mountain %i %s' % (i, key))
+
+
 class Command(BaseCommand):
     help = "Populate Mountain DB with Peakware Data"
 
@@ -55,13 +65,7 @@ class Command(BaseCommand):
             mountain = {'id': i}
             trs = q('#overview table tr')
             if len(trs):
-                for tr in trs:
-                    try:
-                        key = pq(tr)('th').text().replace(' \n ', ' ').replace('\n', '').replace(':', '').strip()
-                        value = pq(tr)('td').text().replace(' \n ', ' ').replace('\n', '')
-                        mountain[key] = value
-                    except UnicodeDecodeError:
-                        print('error unicode on mountain %i %s' % (i, key))
+                try_populate_mountain(trs, mountain, i)
                 try:
                     mountain['name'] = q('h1').text()
                 except UnicodeDecodeError:

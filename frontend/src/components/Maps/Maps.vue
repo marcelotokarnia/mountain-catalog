@@ -25,8 +25,8 @@
     infoWinOpen: boolean
   }
 
-  import { IDataMountains, IMountain } from '@typings/mountains'
   import { IPosition } from '@typings/geo'
+  import { IDataMountains, IMountain } from '@typings/mountains'
   import { ApolloQueryResult } from 'apollo-client'
   import gql from 'graphql-tag'
   import * as R from 'ramda'

@@ -4,8 +4,8 @@ declare module 'vue-intl' {
   export function install(Vue: any, options?: any): void
 }
 
-declare module "vue/types/vue" {
-  interface VueConstructor {
+declare module 'vue/types/vue' {
+  interface VueConstructor {  // tslint:disable-line interface-name
     setLocale: (locale: string) => void
     registerMessages: (locale: string, messages: any) => void
   }
@@ -18,8 +18,7 @@ declare module "vue/types/vue" {
 //   }
 // }
 
-
-//constructor options
+// constructor options
 // import Vue from "vue";
 
 // declare module "vue" {

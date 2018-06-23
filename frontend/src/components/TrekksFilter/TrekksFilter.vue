@@ -54,7 +54,7 @@ export default Vue.extend({
           },
         })
       },
-      skip(){
+      skip() {
         return true
       },
     },

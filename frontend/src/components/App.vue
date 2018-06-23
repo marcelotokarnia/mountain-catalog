@@ -18,7 +18,7 @@
     components: {
       Maps,
       TrekksFilter,
-      Umbler
+      Umbler,
     },
     name: 'App',
   })

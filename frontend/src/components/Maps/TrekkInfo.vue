@@ -7,8 +7,8 @@
     @closeclick="infoWinOpen=false"
   >
     <div v-html="$formatMessage({id: 'maps.trekk-info.name-elevation'}, {
+      elevation: mountain.elevation,
       name: mountain.name,
-      elevation: mountain.elevation
     })" />
     <div v-html="$formatMessage({id: 'maps.trekk-info.distance'}, {
       distance: mountain.distance
@@ -21,16 +21,22 @@
     infoOptions: {
       pixelOffset: {
         height: number
-        width: number
-      }
+        width: number,
+      },
     }
   }
 
-  import Vue from 'vue'
   import { IPosition } from '@typings/geo'
+  import Vue from 'vue'
   export default Vue.extend({
-    props: ['onClose', 'mountain', 'isOpen'],
-    name: 'TrekkInfo',
+    computed: {
+      position(): IPosition {
+        return {
+          lat: this.mountain.position.lat,
+          lng: this.mountain.position.lng,
+        }
+      },
+    },
     data(): ITrekkInfo {
       return {
         infoOptions: {
@@ -41,15 +47,8 @@
         },
       }
     },
-    computed: {
-      position(): IPosition {
-        return {
-          lat: this.mountain.position.lat,
-          lng: this.mountain.position.lng,
-        }
-      }
-
-    }
+    name: 'TrekkInfo',
+    props: ['onClose', 'mountain', 'isOpen'],
   })
 </script>
 

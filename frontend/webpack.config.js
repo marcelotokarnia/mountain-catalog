@@ -17,6 +17,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.ts', '.json', '.vue'],
     alias: {
+      '@src': path.resolve(__dirname, './src'),
       '@components': path.resolve(__dirname, './src/components'),
       '@locales': path.resolve(__dirname, './src/locales'),
       '@typings': path.resolve(__dirname, './typings'),

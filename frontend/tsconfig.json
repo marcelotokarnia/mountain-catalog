@@ -4,6 +4,7 @@
         "sourceMap": true,
         "baseUrl": "./",
         "paths": {
+          "@src/*": ["src/*"],
           "@components/*": ["src/components/*"],
           "@locales/*": ["src/locales/*"],
           "@typings/*": ["typings/*"],

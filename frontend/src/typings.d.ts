@@ -2,7 +2,7 @@ declare let CSRFTOKEN: string
 
 declare module '@locales/*.json' {
   const value: {
-    [key: string]: string
+    [key: string]: string,
   }
   export default value
 }

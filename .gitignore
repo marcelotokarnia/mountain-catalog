@@ -109,7 +109,7 @@ venv.bak/
 dist
 node_modules
 
-google_maps_key.ts
+google-maps-key.ts
 docker/trekkpedia.crt
 docker/trekkpedia.csr
 docker/trekkpedia.key

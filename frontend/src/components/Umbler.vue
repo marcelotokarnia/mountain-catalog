@@ -1,7 +1,10 @@
 <template>
   <a href='https://app.umbler.com/u/yk4lz7pj'>
-    <img src='https://static.umbler.com/brand/umbler-badges/umbler-badge-hostedby-light-bg.png'
-  width='100%' alt='Hosted by Umbler'>
+    <img
+      src='https://static.umbler.com/brand/umbler-badges/umbler-badge-hostedby-light-bg.png'
+      width='100%'
+      alt='Hosted by Umbler'
+    />
   </a>
 </template>
 

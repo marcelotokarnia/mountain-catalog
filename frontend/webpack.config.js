@@ -1,6 +1,8 @@
 const path = require('path')
 const webpack = require('webpack')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
+
 
 module.exports = {
   context: path.resolve(__dirname),
@@ -16,6 +18,7 @@ module.exports = {
     extensions: ['.js', '.ts', '.json', '.vue'],
     alias: {
       '@components': path.resolve(__dirname, './src/components'),
+      '@locales': path.resolve(__dirname, './src/locales'),
       '@typings': path.resolve(__dirname, './typings'),
       '@queries': path.resolve(__dirname, './src/queries'),
       '@mutations': path.resolve(__dirname, './src/mutations'),
@@ -92,7 +95,10 @@ module.exports = {
     ]
   },
   plugins: [
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
+    new CopyWebpackPlugin([
+      { from: 'assets/thumbs/*', to: 'thumbs/[name].[ext]' },
+    ]),
   ],
   devServer: {
     historyApiFallback: true,

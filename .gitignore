@@ -110,4 +110,6 @@ dist
 node_modules
 
 google_maps_key.ts
-docker/foobar.*
+docker/trekkpedia.crt
+docker/trekkpedia.csr
+docker/trekkpedia.key

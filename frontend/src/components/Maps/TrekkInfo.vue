@@ -6,8 +6,13 @@
     :opened="isOpen"
     @closeclick="infoWinOpen=false"
   >
-    <div>{{`${mountain.name}: ${mountain.elevation}m`}}</div>
-    <div>{{`${mountain.distance}km away`}}</div>
+    <div v-html="$formatMessage({id: 'maps.trekk-info.name-elevation'}, {
+      name: mountain.name,
+      elevation: mountain.elevation
+    })" />
+    <div v-html="$formatMessage({id: 'maps.trekk-info.distance'}, {
+      distance: mountain.distance
+    })" />
   </gmap-info-window>
 </template>
 

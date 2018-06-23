@@ -1,4 +1,5 @@
 import App from '@components/App.vue'
+import en from '@locales/en.json'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloClient } from 'apollo-client'
 import { ApolloLink, concat, NextLink, Operation } from 'apollo-link'
@@ -6,6 +7,7 @@ import { HttpLink } from 'apollo-link-http'
 import { withClientState } from 'apollo-link-state'
 import Vue from 'vue'
 import VueApollo from 'vue-apollo'
+import * as VueIntl from 'vue-intl'
 import * as VueGoogleMaps from 'vue2-google-maps'
 import GMAPS_KEY from './google_maps_key'
 import { defaults, resolvers } from './linkstate'
@@ -46,6 +48,12 @@ const apolloProvider = new VueApollo({
 })
 
 Vue.use(VueApollo)
+
+Vue.use(VueIntl)
+
+Vue.setLocale('en')
+
+Vue.registerMessages('en', en)
 
 Vue.use(VueGoogleMaps, {
     load: {

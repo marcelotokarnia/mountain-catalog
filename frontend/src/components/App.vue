@@ -6,7 +6,6 @@
     </div>
 
     <Umbler />
-
   </div>
 </template>
 
@@ -19,7 +18,7 @@
     components: {
       Maps,
       TrekksFilter,
-      Umbler,
+      Umbler
     },
     name: 'App',
   })

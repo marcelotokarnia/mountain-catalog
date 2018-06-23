@@ -1,7 +1,8 @@
 <template>
   <div>
     <div>
-      <label for="input-filter-distance">Maximum Distance</label>
+      <label for="input-filter-distance"
+        v-html="$formatMessage({id: 'trekks-filter.filter-options.maximum-distance'})" />
       <input
         id="input-filter-distance"
         type="number"
@@ -10,7 +11,8 @@
       />
     </div>
     <div>
-      <label for="input-filter-elevation">Minimum Elevation</label>
+      <label for="input-filter-elevation"
+        v-html="$formatMessage({id: 'trekks-filter.filter-options.minimum-elevation'})" />
       <input
         id="input-filter-elevation"
         type="number"

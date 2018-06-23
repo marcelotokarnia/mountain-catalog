@@ -3,11 +3,6 @@ from mountains.models import Mountain
 from django.contrib.gis.measure import D
 from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.geos import GEOSGeometry
-from graphene_django.converter import convert_django_field
-
-@convert_django_field.register(Distance)
-def my_convert_function(field, registry=None):
-    return field.km
 
 
 class PositionType(graphene.ObjectType):
@@ -18,6 +13,7 @@ class PositionType(graphene.ObjectType):
         if point:
             self.lat = point.x
             self.lng = point.y
+
 
 class MountainType(graphene.ObjectType):
     id = graphene.ID()

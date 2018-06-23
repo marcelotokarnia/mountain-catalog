@@ -11,8 +11,8 @@ ADD . /app
 
 COPY docker/nginx.conf /etc/nginx/sites-enabled
 COPY docker/uwsgi.ini uwsgi.ini
-COPY docker/foobar.crt foobar.crt
-COPY docker/foobar.key foobar.key
+COPY docker/trekkpedia.crt trekkpedia.crt
+COPY docker/trekkpedia.key trekkpedia.key
 COPY docker/uwsgi_params /uwsgi/uwsgi_params
 
 ENTRYPOINT ["docker/entrypoint.sh"]

@@ -1,12 +1,12 @@
 <template>
   <div>
     <select v-model="sortBy">
-      <option value="elevation">Elevation</option>
-      <option value="distance">Distance</option>
+      <option value="elevation" v-html="$formatMessage({id: 'trekks-filter.filter-sort.elevation'})" />
+      <option value="distance" v-html="$formatMessage({id: 'trekks-filter.filter-sort.distance'})" />
     </select>
     <select v-model="order">
-      <option value="">Ascending</option>
-      <option value="-">Descending</option>
+      <option value="" v-html="$formatMessage({id: 'trekks-filter.filter-sort.ascending'})" />
+      <option value="-" v-html="$formatMessage({id: 'trekks-filter.filter-sort.descending'})" />
     </select>
   </div>
 </template>

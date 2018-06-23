@@ -1,0 +1,14 @@
+{
+  "maps.trekk-info.name-elevation": "{name}: {elevation}m",
+  "maps.trekk-info.distance": "{distance}km away",
+  "trekks-filter.trekks-filter.name": "Name: {name}",
+  "trekks-filter.filter-options.maximum-distance": "Maximum Distance",
+  "trekks-filter.filter-options.minimum-elevation": "Minimum Elevation",
+  "trekks-filter.filter-sort.elevation": "Elevation",
+  "trekks-filter.filter-sort.distance": "Distance",
+  "trekks-filter.filter-sort.ascending": "Ascending",
+  "trekks-filter.filter-sort.descending": "Descending",
+  "trekks-filter.trekks-filter.position": "Position: ({lat}, {lng})",
+  "trekks-filter.trekks-filter.elevation": "Elevation: {elevation}m",
+  "trekks-filter.trekks-filter.distance": "Distance from your position: {distance}km"
+}

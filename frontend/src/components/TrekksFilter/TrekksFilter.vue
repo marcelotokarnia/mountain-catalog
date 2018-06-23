@@ -8,10 +8,10 @@
         v-for="{id, position: {lat, lng}, distance, name, elevation} in mountains"
         style="padding: 5px;"
       >
-        <p>Name: {{name}}</p>
-        <p>Position: ({{lat}}, {{lng}})</p>
-        <p>Elevation: {{elevation}}m</p>
-        <p>Distance from your position: {{distance}}km</p>
+        <p v-html="$formatMessage({id: 'trekks-filter.trekks-filter.name'}, {name})" />
+        <p v-html="$formatMessage({id: 'trekks-filter.trekks-filter.position'}, {lat, lng})"/>
+        <p v-html="$formatMessage({id: 'trekks-filter.trekks-filter.elevation'}, {elevation})"/>
+        <p v-html="$formatMessage({id: 'trekks-filter.trekks-filter.distance'}, {distance})"/>
       </li>
     </ul>
   </div>

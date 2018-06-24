@@ -21,6 +21,7 @@ class MountainType(graphene.ObjectType):
     position = graphene.Field(PositionType)
     elevation = graphene.Int()
     name = graphene.String()
+    image = graphene.String()
 
     def __init__(self, mountain):
         if hasattr(mountain, 'distance'):
@@ -29,6 +30,11 @@ class MountainType(graphene.ObjectType):
         self.name = mountain.name
         self.elevation = mountain.elevation
         self.id = mountain.id
+        imageRecord = mountain.images.order_by('-votes').first()
+        if imageRecord:
+            self.image = imageRecord.image.url
+        else:
+             self.image = None
 
 
 class SortingOptions(graphene.InputObjectType):

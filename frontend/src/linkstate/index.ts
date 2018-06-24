@@ -31,7 +31,7 @@ const defaults: IDefaultObject = {
 
 const resolvers: IResolverObject = {
   Mutation: {
-    updateMountains(_: any, { mountains }: any, { cache }: IContext): null {
+    updateMountains(_: any, { mountains }: any, { cache }: IContext): void {
       const data = {
         smountains: {
           __typename: 'SMountains',
@@ -39,8 +39,7 @@ const resolvers: IResolverObject = {
         },
       }
 
-      cache.writeData({ data })
-      return null
+      return cache.writeData({ data })
     },
   },
 }

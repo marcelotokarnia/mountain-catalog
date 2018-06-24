@@ -1,5 +1,6 @@
 from django.contrib.gis.db import models
 from utils.models_utils import BaseModel
+from django.contrib.auth.models import User
 
 
 class Mountain(BaseModel):
@@ -13,6 +14,7 @@ class Mountain(BaseModel):
     country = models.CharField(max_length=128, blank=True, null=True)
     state = models.CharField(max_length=128, blank=True, null=True)
     region = models.CharField(max_length=128, blank=True, null=True)
+    created_by = models.ForeignKey(User, related_name="mountains", on_delete=models.CASCADE)
 
     def __str__(self):
         return "%s: %s(%sm)-%s (%s, %s)" % (self.pk, self.name, self.elevation, self.country, self.spot.x, self.spot.y)

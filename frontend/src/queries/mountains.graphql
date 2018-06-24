@@ -8,5 +8,6 @@ query($distance: MinMaxInt, $position: Position, $elevation: MinMaxInt) {
       lat
       lng
     }
+    image
   }
 }

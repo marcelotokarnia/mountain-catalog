@@ -10,4 +10,4 @@ https://askubuntu.com/questions/1030179/package-docker-ce-has-no-installation-ca
 
 [Set your database](./LOCAL_SETUP_EXPLAINED.md)
 
-docker run --env-file=docker.env --network=host -it marcelotokarnia/trackpedia:$TAG$ --prod
+docker run --env-file=docker.env --network=host -d -it marcelotokarnia/trackpedia:$TAG$ --prod

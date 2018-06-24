@@ -21,6 +21,7 @@ const route = (path: string, name: string, component: typeof Vue, isPublic: bool
 })
 
 const router = new VueRouter({
+  mode: 'history',
   routes: [
     route('/', 'map', Maps, false),
     // route('/manage', 'manage', Manage, false),

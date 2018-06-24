@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 import dj_database_url
+from catalog.aws.conf import *
+# https://www.codingforentrepreneurs.com/blog/s3-static-media-files-for-django/
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -32,6 +35,8 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'www.trekkpedia.com']
 
 INSTALLED_APPS = [
     'mountains',
+    'records',
+    'storages',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

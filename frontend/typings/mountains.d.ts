@@ -10,6 +10,7 @@ interface IMountain {
   elevation: number
   position: IPosition
   distance: number
+  image: string
 }
 
 export {

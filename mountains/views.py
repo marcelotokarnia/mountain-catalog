@@ -20,7 +20,7 @@ def resolve_meta_tags(request):
                 'description': 'Elevation: %sm' % mount.elevation,
                 'author': 'Marcelo Tokarnia',
                 'title': mount.name,
-                'url': 'https://github.com/marcelotokarnia/mountain-catalog',
+                'url': 'https://www.trekkpedia.com',
                 'keywords': 'Django,Vue,ApolloLinkState,SPA,Javascript,Python,Graphql'
             }
     return {
@@ -28,7 +28,7 @@ def resolve_meta_tags(request):
         'description': 'Find out the biggest mountains around you, and conquer them.',
         'author': 'Marcelo Tokarnia',
         'title': 'Trekkpedia',
-        'url': 'https://github.com/marcelotokarnia/mountain-catalog',
+        'url': 'https://www.trekkpedia.com',
         'keywords': 'Django,Vue,ApolloLinkState,SPA,Javascript,Python,Graphql'
     }
 

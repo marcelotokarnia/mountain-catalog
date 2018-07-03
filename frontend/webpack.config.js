@@ -8,6 +8,7 @@ module.exports = {
   context: path.resolve(__dirname),
   entry: {
     build: './src/index.ts',
+    styles: './src/styles.global.ts'
   },
   output: {
     filename: '[name].js',
@@ -29,6 +30,10 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.styl(us)?$/,
+        loader: 'vue-style-loader!css-loader!stylus-loader?paths=node_modules/bootstrap-stylus/stylus/'
+      },
+      {
         test: /\.js$/,
         loader: 'babel-loader',
         exclude: /node_modules/,
@@ -47,8 +52,6 @@ module.exports = {
                 presets: ['stage-2']
               }
             },
-            'scss': 'vue-style-loader!css-loader!sass-loader',
-            'sass': 'vue-style-loader!css-loader!sass-loader?indentedSyntax',
           }
           // other vue-loader options go here
         }
@@ -98,7 +101,11 @@ module.exports = {
   plugins: [
     new VueLoaderPlugin(),
     new CopyWebpackPlugin([
-      { from: 'assets/thumbs/*', to: 'thumbs/[name].[ext]' },
+      { from: 'assets/images/*', to: 'images/[name].[ext]' },
+      { from: 'assets/js/*', to: 'js/[name].[ext]' },
+      { from: 'assets/css/*', to: 'css/[name].[ext]' },
+      { from: 'assets/icons/*', to: 'icons/[name].[ext]' },
+      { from: 'assets/favicon.png', to: '[name].[ext]' },
     ]),
   ],
   devServer: {

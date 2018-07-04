@@ -21,6 +21,7 @@ class MountainType(graphene.ObjectType):
     position = graphene.Field(PositionType)
     elevation = graphene.Int()
     name = graphene.String()
+    country = graphene.String()
     image = graphene.String()
 
     def __init__(self, mountain):
@@ -29,6 +30,7 @@ class MountainType(graphene.ObjectType):
         self.position = PositionType(mountain.spot)
         self.name = mountain.name
         self.elevation = mountain.elevation
+        self.country = mountain.country
         self.id = mountain.id
         imageRecord = mountain.images.order_by('-votes').first()
         if imageRecord:

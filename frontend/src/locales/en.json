@@ -1,6 +1,7 @@
 {
   "maps.trekk-info.name-elevation": "{name}: {elevation}m",
   "maps.trekk-info.distance": "{distance}km away",
+  "trekks-filter.mountain-card.image-alt": "{name} best image",
   "trekks-filter.trekks-filter.name": "Name: {name}",
   "trekks-filter.filter-options.maximum-distance": "Maximum Distance",
   "trekks-filter.filter-options.minimum-elevation": "Minimum Elevation",

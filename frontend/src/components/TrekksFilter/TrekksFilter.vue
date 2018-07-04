@@ -2,18 +2,7 @@
   <div>
     <FilterOptions :filterMountains="filterMountains" />
     <FilterSort :sortMountains="sortMountains" />
-    <ul>
-      <li
-        :key="id"
-        v-for="{id, position: {lat, lng}, distance, name, elevation} in mountains"
-        style="padding: 5px;"
-      >
-        <p v-html="$formatMessage({id: 'trekks-filter.trekks-filter.name'}, {name})" />
-        <p v-html="$formatMessage({id: 'trekks-filter.trekks-filter.position'}, {lat, lng})"/>
-        <p v-html="$formatMessage({id: 'trekks-filter.trekks-filter.elevation'}, {elevation})"/>
-        <p v-html="$formatMessage({id: 'trekks-filter.trekks-filter.distance'}, {distance})"/>
-      </li>
-    </ul>
+    <MountainCard v-for="mountain in mountains" :key="mountain.id" :mountain="mountain" class="mb-2"/>
   </div>
 </template>
 
@@ -37,8 +26,9 @@ import { ApolloQueryResult } from 'apollo-client'
 import gql from 'graphql-tag'
 import * as R from 'ramda'
 import Vue from 'vue'
-import FilterOptions from './FilterOptions.vue'
-import FilterSort from './FilterSort.vue'
+import MountainCard from '@components/TrekksFilter/MountainCard.vue'
+import FilterOptions from '@components/TrekksFilter/FilterOptions.vue'
+import FilterSort from '@components/TrekksFilter/FilterSort.vue'
 
 export default Vue.extend({
   apollo: {
@@ -62,6 +52,7 @@ export default Vue.extend({
   components: {
     FilterOptions,
     FilterSort,
+    MountainCard,
   },
   computed: {
   },

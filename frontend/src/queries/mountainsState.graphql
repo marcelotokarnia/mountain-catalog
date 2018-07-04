@@ -5,6 +5,7 @@ query {
       name
       elevation
       distance
+      country
       position {
         lat
         lng

@@ -2,7 +2,7 @@
   <gmap-info-window
     v-if="mountain"
     :options="infoOptions"
-    :position="{lat: mountain.position.lat, lng: mountain.position.lng}"
+    :position="position"
     :opened="isOpen"
     @closeclick="infoWinOpen=false"
   >
@@ -13,7 +13,7 @@
     <div v-html="$formatMessage({id: 'maps.trekk-info.distance'}, {
       distance: mountain.distance
     })" />
-    <img v-if="mountain.image" v-bind:src="mountain.image" />
+    <img v-if="mountain.image" :src="mountain.image" />
   </gmap-info-window>
 </template>
 
@@ -52,6 +52,3 @@
     props: ['onClose', 'mountain', 'isOpen'],
   })
 </script>
-
-<style>
-</style>

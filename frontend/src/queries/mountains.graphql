@@ -4,6 +4,7 @@ query($distance: MinMaxInt, $position: Position, $elevation: MinMaxInt) {
     name
     elevation
     distance
+    country
     position {
       lat
       lng

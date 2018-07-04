@@ -1,33 +1,24 @@
 <template>
   <div>
-    <div>
-      <Navbar />
-      <Main>
-        <router-view style="flex: 1;" />
-        <TrekksFilter style="flex: 1;" />
-      </Main>
-    </div>
-
-    <Umbler />
+    <Navbar />
+    <Main>
+      <router-view />
+    </Main>
+    <Footer />
   </div>
 </template>
 
 <script lang="ts">
-    import TrekksFilter from '@components/TrekksFilter'
     import Main from '@components/Main'
     import Navbar from '@components/Navbar'
-    import Umbler from '@components/Umbler.vue'
+    import Footer from '@components/Footer'
     import Vue from 'vue'
     export default Vue.extend({
     components: {
+      Footer,
       Main,
       Navbar,
-      TrekksFilter,
-      Umbler,
     },
     name: 'App',
   })
 </script>
-
-<style>
-</style>

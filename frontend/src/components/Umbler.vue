@@ -2,7 +2,6 @@
   <a href='https://app.umbler.com/u/yk4lz7pj'>
     <img
       src='https://static.umbler.com/brand/umbler-badges/umbler-badge-hostedby-light-bg.png'
-      width='100%'
       alt='Hosted by Umbler'
     />
   </a>
@@ -15,10 +14,13 @@
   })
 </script>
 
-<style scoped>
-  a {
-    width: 100px;
-    height: 50px;
-    position: absolute;
-  }
+<style scoped lang="stylus">
+  a
+    line-height 3.5rem
+    height 3.5rem
+  a img
+    height calc(100% - 1.5rem)
+    margin auto
+    vertical-align middle
+    display inline-block
 </style>

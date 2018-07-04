@@ -107,6 +107,3 @@ export default Vue.extend({
   props: [],
 })
 </script>
-
-<style>
-</style>

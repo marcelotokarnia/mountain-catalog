@@ -15,6 +15,7 @@
     <meta name="twitter:description" content="{{description}}">
     <meta name="twitter:image" content="{{image}}">
     <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="{% static "favicon.png" %}">
     <title>{{title}}</title>
     <script>
       var CSRFTOKEN = '{{csrf_token}}';
@@ -23,6 +24,7 @@
 
   <body>
     <div id="app"></div>
+    <script src="{% static "styles.js" %}"></script>
     <script src="{% static "build.js" %}"></script>
   </body>
 </html>

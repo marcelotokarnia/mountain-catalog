@@ -8,6 +8,7 @@
   "trekks-filter.filter-sort.distance": "Distance",
   "trekks-filter.filter-sort.ascending": "Ascending",
   "trekks-filter.filter-sort.descending": "Descending",
+  "trekks-filter.filter-sort.sorting": "Sorting",
   "trekks-filter.trekks-filter.position": "Position: ({lat}, {lng})",
   "trekks-filter.trekks-filter.elevation": "Elevation: {elevation}m",
   "trekks-filter.trekks-filter.distance": "Distance from your position: {distance}km"

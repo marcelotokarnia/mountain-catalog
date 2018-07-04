@@ -1,14 +1,20 @@
 <template>
-  <div>
-    <select v-model="sortBy">
-      <option value="elevation" v-html="$formatMessage({id: 'trekks-filter.filter-sort.elevation'})" />
-      <option value="distance" v-html="$formatMessage({id: 'trekks-filter.filter-sort.distance'})" />
-    </select>
-    <select v-model="order">
-      <option value="" v-html="$formatMessage({id: 'trekks-filter.filter-sort.ascending'})" />
-      <option value="-" v-html="$formatMessage({id: 'trekks-filter.filter-sort.descending'})" />
-    </select>
-  </div>
+  <form class="container">
+    <div class="form-group">
+      <label
+        v-html="$formatMessage({id: 'trekks-filter.filter-sort.sorting'})" />
+    </div>
+    <div class="form-group row">
+      <select v-model="sortBy" class="form-control col-6">
+        <option value="elevation" v-html="$formatMessage({id: 'trekks-filter.filter-sort.elevation'})" />
+        <option value="distance" v-html="$formatMessage({id: 'trekks-filter.filter-sort.distance'})" />
+      </select>
+      <select v-model="order" class="form-control col-6">
+        <option value="" v-html="$formatMessage({id: 'trekks-filter.filter-sort.ascending'})" />
+        <option value="-" v-html="$formatMessage({id: 'trekks-filter.filter-sort.descending'})" />
+      </select>
+    </div>
+  </form>
 </template>
 
 <script lang="ts">

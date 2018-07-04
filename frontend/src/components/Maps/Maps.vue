@@ -1,20 +1,23 @@
 <template>
-  <gmap-map
-    :center="center"
-    :zoom="5"
-    map-type-id="terrain"
-    style="width: 500px; height: 300px"
-  >
-    <TrekkInfo :mountain="selectedMountain" :isOpen="infoWinOpen" :onClose="closeInfo" />
-    <gmap-marker
-      :key="m.id"
-      v-for="m in smountains"
-      :position="{lat: m.position.lat, lng: m.position.lng}"
-      :clickable="true"
-      :draggable="false"
-      @click="toggleInfoWindow(m)"
-    />
-  </gmap-map>
+  <div class="row maps-main">
+    <gmap-map
+      :center="center"
+      :zoom="5"
+      map-type-id="terrain"
+      class="col-9"
+    >
+      <TrekkInfo :mountain="selectedMountain" :isOpen="infoWinOpen" :onClose="closeInfo" />
+      <gmap-marker
+        :key="m.id"
+        v-for="m in smountains"
+        :position="{lat: m.position.lat, lng: m.position.lng}"
+        :clickable="true"
+        :draggable="false"
+        @click="toggleInfoWindow(m)"
+      />
+    </gmap-map>
+    <TrekksFilter class="col-3 pre-scrollable scrollable-view" />
+  </div>
 </template>
 
 <script lang='ts'>
@@ -27,6 +30,7 @@
 
   import { IPosition } from '@typings/geo'
   import { IDataMountains, IMountain } from '@typings/mountains'
+  import TrekksFilter from '@components/TrekksFilter'
   import { ApolloQueryResult } from 'apollo-client'
   import gql from 'graphql-tag'
   import * as R from 'ramda'
@@ -46,6 +50,7 @@
     },
     components: {
       TrekkInfo,
+      TrekksFilter,
     },
     computed: {
     },
@@ -82,5 +87,9 @@
   })
 </script>
 
-<style>
+<style lang="stylus" scoped>
+  .maps-main
+    height 100%
+  .scrollable-view
+    max-height 100%
 </style>

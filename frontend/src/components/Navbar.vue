@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+  <nav class="navbar navbar-expand-md navbar-success bg-success fixed-top">
     <div class="navbar-brand" id="navbar-title">Trekkpedia</div>
   </nav>
 </template>
@@ -11,8 +11,7 @@
   })
 </script>
 
-<style scoped lang="css">
-  #navbar-title {
-    padding-left: 5rem;
-  }
+<style scoped lang="stylus">
+  #navbar-title
+    padding-left 5rem
 </style>

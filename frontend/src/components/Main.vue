@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="container main">
     <slot></slot>
   </div>
 </template>
@@ -13,6 +13,7 @@
 
 <style scoped lang="stylus">
   .main
-    display flex
+    height 80vh
+    max-width 95vw !important
     padding-top 4rem
 </style>

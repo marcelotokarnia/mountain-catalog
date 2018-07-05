@@ -1,0 +1,12 @@
+fragment mount on MountainType {
+  id
+  name
+  elevation
+  distance
+  country
+  position {
+    lat
+    lng
+  }
+  image
+}

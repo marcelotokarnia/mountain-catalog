@@ -8,8 +8,9 @@
           "@components/*": ["src/components/*"],
           "@locales/*": ["src/locales/*"],
           "@typings/*": ["typings/*"],
-          "@queries/*": ["src/queries/*"],
-          "@mutations/*": ["src/mutations/*"],
+          "@queries/*": ["src/graphql/queries/*"],
+          "@mutations/*": ["src/graphql/mutations/*"],
+          "@fragments/*": ["src/graphql/fragments/*"],
           "*": ["typings/*"]
         },
         "strict": true,

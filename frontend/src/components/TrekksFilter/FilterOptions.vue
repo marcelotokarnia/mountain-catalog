@@ -39,7 +39,7 @@ import gql from 'graphql-tag'
 import * as R from 'ramda'
 import Vue from 'vue'
 import FilterOptions from './FilterOptions.vue'
-const mountains = require('../../queries/mountains.graphql')
+const mountains = require('@queries/mountains.graphql')
 
 export default Vue.extend({
     data(): IFilterOptionsInstance {

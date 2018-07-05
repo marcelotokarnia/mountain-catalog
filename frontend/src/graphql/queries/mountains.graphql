@@ -1,14 +1,7 @@
+#import '@fragments/mountains.graphql'
+
 query($distance: MinMaxInt, $position: Position, $elevation: MinMaxInt) {
   mountains(distance: $distance, position: $position, elevation: $elevation) {
-    id
-    name
-    elevation
-    distance
-    country
-    position {
-      lat
-      lng
-    }
-    image
+    ...mount
   }
 }

@@ -3,6 +3,7 @@ from mountains.models import Mountain
 from django.contrib.gis.measure import D
 from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.geos import GEOSGeometry
+from utils.schema_utils import find_operation_field, get_selections
 
 
 class PositionType(graphene.ObjectType):
@@ -24,7 +25,7 @@ class MountainType(graphene.ObjectType):
     country = graphene.String()
     image = graphene.String()
 
-    def __init__(self, mountain):
+    def __init__(self, mountain, selections):
         if hasattr(mountain, 'distance'):
             self.distance = float('%.2f' % mountain.distance.km)
         self.position = PositionType(mountain.spot)
@@ -32,11 +33,14 @@ class MountainType(graphene.ObjectType):
         self.elevation = mountain.elevation
         self.country = mountain.country
         self.id = mountain.id
-        imageRecord = mountain.images.order_by('-votes').first()
-        if imageRecord:
-            self.image = imageRecord.image.url
+        if 'image' in selections:
+            imageRecord = mountain.images.order_by('-votes').first()
+            if imageRecord:
+                self.image = imageRecord.image.url
+            else:
+                self.image = None
         else:
-             self.image = None
+            self.image = None
 
 
 class SortingOptions(graphene.InputObjectType):
@@ -73,6 +77,12 @@ class Query(graphene.ObjectType):
         position = args.get('position')
         sort = args.get('sort')
 
+        selections = get_selections(
+            find_operation_field(info.field_asts, 'mountains'),
+            info.fragments
+        )
+        print(selections)
+
         queryset = Mountain.objects.all()
         if elevation is not None:
             if elevation.min is not None:
@@ -97,5 +107,5 @@ class Query(graphene.ObjectType):
             queryset = queryset.annotate(distance=Distance('spot', pnt))
         results = []
         for mount in queryset:
-            results.append(MountainType(mount))
+            results.append(MountainType(mount, selections))
         return results

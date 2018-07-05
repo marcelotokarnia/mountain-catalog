@@ -22,8 +22,9 @@ module.exports = {
       '@components': path.resolve(__dirname, './src/components'),
       '@locales': path.resolve(__dirname, './src/locales'),
       '@typings': path.resolve(__dirname, './typings'),
-      '@queries': path.resolve(__dirname, './src/queries'),
-      '@mutations': path.resolve(__dirname, './src/mutations'),
+      '@queries': path.resolve(__dirname, './src/graphql/queries'),
+      '@mutations': path.resolve(__dirname, './src/graphql/mutations'),
+      '@fragments': path.resolve(__dirname, './src/graphql/fragments'),
       'vue$': 'vue/dist/vue.esm.js'
     }
   },

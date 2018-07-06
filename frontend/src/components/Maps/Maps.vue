@@ -2,7 +2,7 @@
   <div class="row maps-main">
     <gmap-map
       :center="center"
-      :zoom="5"
+      :zoom="zoom"
       map-type-id="terrain"
       class="col-9"
     >
@@ -22,13 +22,15 @@
 
 <script lang='ts'>
   interface IMapsInstance {
-    center: IPosition
+    center?: IPosition
+    zoom?: number
     smountains: IMountain[]
     selectedMountain?: IMountain
     infoWinOpen: boolean
   }
 
   import { IPosition } from '@typings/geo'
+  import { IMap } from '@typings/map'
   import { IDataMountains, IMountain } from '@typings/mountains'
   import TrekksFilter from '@components/TrekksFilter'
   import { ApolloQueryResult } from 'apollo-client'
@@ -37,13 +39,22 @@
   import Vue from 'vue'
   import TrekkInfo from './TrekkInfo.vue'
   const mountainsState = require('@queries/mountainsState.graphql')
+  const mapState = require('@queries/mapState.graphql')
+  const mapMutation = require('@mutations/mapState.graphql')
 
   export default Vue.extend({
     apollo: {
+      smap: {
+        query: mapState,
+        result( result: ApolloQueryResult<{ smap: IMap }>) {
+          const { data: { smap: { center, zoom } } } = result
+          this.center = center
+          this.zoom = zoom
+        },
+      },
       smountains: {
-        loadingKey: 'loading',
         query: mountainsState,
-        result( { data: { smountains: { mountains } } }: ApolloQueryResult<any>) {
+        result( { data: { smountains: { mountains } } }: ApolloQueryResult<{smountains: { mountains: IMountain[] } }>) {
           this.smountains = mountains
         },
       },
@@ -57,13 +68,18 @@
     created() {
       window.navigator.geolocation.getCurrentPosition(
         ({coords: {latitude: lat, longitude: lng}}) => {
-          this.center = {lat, lng}
+          this.$apollo.mutate({
+            mutation: mapMutation,
+            variables: {
+              center: {lat, lng},
+              zoom: 5
+            },
+          })
         },
       )
     },
     data(): IMapsInstance {
         return {
-          center: {lat: 10, lng: 10},
           infoWinOpen: false,
           selectedMountain: undefined,
           smountains: [] as IMountain[],

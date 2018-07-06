@@ -1,0 +1,3 @@
+mutation ($center: IPosition, $zoom: Int) {
+  updateMap(center: $center, zoom: $zoom) @client
+}

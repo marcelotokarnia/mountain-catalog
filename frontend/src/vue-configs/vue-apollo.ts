@@ -22,7 +22,7 @@ const authMiddleware = new ApolloLink((operation: Operation, forward?: NextLink)
       },
   })
   return forward ? forward(operation) : null
-  })
+})
 
 const cache = new InMemoryCache()
 

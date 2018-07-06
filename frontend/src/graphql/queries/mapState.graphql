@@ -1,0 +1,9 @@
+query {
+  smap @client {
+    center {
+      lat
+      lng
+    }
+    zoom
+  }
+}

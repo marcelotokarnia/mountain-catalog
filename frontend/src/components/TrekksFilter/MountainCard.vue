@@ -11,7 +11,8 @@
       <p class="card-text">🌐 ({{mountain.position.lat}}, {{mountain.position.lng}})</p>
       <p class="card-text">⛰️ {{mountain.elevation}} m</p>
       <p class="card-text">📍 {{mountain.distance}} km away</p>
-      <a href="#" class="btn btn-primary">Visit</a>
+      <a href="#" class="btn btn-primary">See on Map</a>
+      <a href="#" class="btn btn-primary">Enter</a>
     </div>
   </div>
 </template>
@@ -21,5 +22,10 @@
   export default Vue.extend({
     name: 'MountainCard',
     props: ["mountain"],
+    methods: {
+      seeOnMap(): void {
+
+      }
+    }
   })
 </script>

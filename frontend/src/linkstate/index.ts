@@ -1,4 +1,6 @@
+import { IPosition } from '@typings/geo'
 import { IMountain } from '@typings/mountains'
+const mapQuery = require('@queries/mapState.graphql')
 import { InMemoryCache } from 'apollo-cache-inmemory'
 
 interface IResolverObject {
@@ -23,6 +25,11 @@ interface IDefaultObject {
 }
 
 const defaults: IDefaultObject = {
+  smap: {
+    __typename: 'SMap',
+    center: {lat: 0, lng: 0, __typename: 'IPosition'} as IPosition,
+    zoom: 5,
+  },
   smountains: {
     __typename: 'SMountains',
     mountains: [] as IMountain[],
@@ -36,6 +43,26 @@ const resolvers: IResolverObject = {
         smountains: {
           __typename: 'SMountains',
           mountains,
+        },
+      }
+
+      return cache.writeData({ data })
+    },
+    updateMap(_: any, { center, zoom }: any, { cache }: IContext): void {
+      let mapState
+      try {
+        mapState = cache.readQuery<any>({
+          query: mapQuery,
+        }).map
+      } catch (e) {
+        mapState = null
+      }
+
+      const data = {
+        smap: {
+          __typename: 'SMap',
+          center: {...center, __typename: 'IPosition'} || (mapState && mapState.center),
+          zoom: zoom || (mapState && mapState.zoom),
         },
       }
 

@@ -5,9 +5,11 @@ interface IDataMountains {
 }
 
 interface IMountain {
+  __typename?: string
   id: number
   name: string
   elevation: number
+  country: string
   position: IPosition
   distance: number
   image: string

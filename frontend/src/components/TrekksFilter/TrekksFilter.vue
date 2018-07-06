@@ -20,7 +20,7 @@ interface ITracksFilterInstance {
 }
 
 const mountainsQuery = require('@queries/mountains.graphql')
-const mountainsMutation = require('@mutations/mountains.graphql')
+const mountainsMutation = require('@mutations/mountainsState.graphql')
 import { IDataMountains, IMountain } from '@typings/mountains'
 import { ApolloQueryResult } from 'apollo-client'
 import gql from 'graphql-tag'
@@ -57,7 +57,6 @@ export default Vue.extend({
   computed: {
   },
   created() {
-      this.reference = {lat: -22, lng: -45}
       window.navigator.geolocation.getCurrentPosition(
         ({coords: {latitude: lat, longitude: lng}}) => {
           this.reference = {lat, lng}

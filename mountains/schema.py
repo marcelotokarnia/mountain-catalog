@@ -7,6 +7,7 @@ from utils.schema_utils import find_operation_field, get_selections
 
 
 class PositionType(graphene.ObjectType):
+    """ GeoLocation Point type """
     lat = graphene.Float()
     lng = graphene.Float()
 
@@ -17,10 +18,11 @@ class PositionType(graphene.ObjectType):
 
 
 class MountainType(graphene.ObjectType):
+    """ Mountain representation """
     id = graphene.ID()
-    distance = graphene.Float()
-    position = graphene.Field(PositionType)
-    elevation = graphene.Int()
+    distance = graphene.Float(description="Distance from given position on query")
+    position = graphene.Field(PositionType, description="Mountain peak geo point")
+    elevation = graphene.Int(description="Mountain height in meters")
     name = graphene.String()
     country = graphene.String()
     image = graphene.String()
@@ -44,16 +46,19 @@ class MountainType(graphene.ObjectType):
 
 
 class SortingOptions(graphene.InputObjectType):
+    """ Sorting options type input """
     param = graphene.String()
     reverse = graphene.Boolean()
 
 
 class MinMaxInt(graphene.InputObjectType):
+    """ Range type input """
     min = graphene.Int()
     max = graphene.Int()
 
 
 class Position(graphene.InputObjectType):
+    """ GeoLocation Point type input """
     lat = graphene.Float()
     lng = graphene.Float()
 
@@ -68,7 +73,8 @@ class Query(graphene.ObjectType):
         distance=MinMaxInt(),
         position=Position(),
         elevation=MinMaxInt(),
-        sort=SortingOptions()
+        sort=SortingOptions(),
+        description="Query mountains by distance or elevation"
     )
 
     def resolve_mountains(self, info, **args):
@@ -81,7 +87,6 @@ class Query(graphene.ObjectType):
             find_operation_field(info.field_asts, 'mountains'),
             info.fragments
         )
-        print(selections)
 
         queryset = Mountain.objects.all()
         if elevation is not None:

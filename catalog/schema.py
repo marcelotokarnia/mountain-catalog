@@ -3,7 +3,7 @@ import mountains.schema
 
 
 class Query(mountains.schema.Query, graphene.ObjectType):
-    # This class extends all abstract apps level Queries and graphene.ObjectType
+    """Through the following queries you can easily fetch data from the database"""
     pass
 
 

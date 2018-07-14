@@ -11,20 +11,35 @@
       <p class="card-text">🌐 ({{mountain.position.lat}}, {{mountain.position.lng}})</p>
       <p class="card-text">⛰️ {{mountain.elevation}} m</p>
       <p class="card-text">📍 {{mountain.distance}} km away</p>
-      <a href="#" class="btn btn-primary">See on Map</a>
-      <a href="#" class="btn btn-primary">Enter</a>
+      <a @click="seeOnMap()" href="#" class="btn btn-primary">See on Map</a>
+      <a :href="`/mountain/${mountain.id}`" class="btn btn-primary">Enter</a>
     </div>
   </div>
 </template>
 
 <script lang="ts">
   import Vue from 'vue'
+  const mapMutation = require('@mutations/mapState.graphql')
+  const mountainHintState = require('@mutations/mountainHintState.graphql')
+
   export default Vue.extend({
     name: 'MountainCard',
     props: ["mountain"],
     methods: {
       seeOnMap(): void {
-
+        this.$apollo.mutate({
+          mutation: mapMutation,
+          variables: {
+            center: this.mountain.position,
+            zoom: 5
+          },
+        })
+        this.$apollo.mutate({
+          mutation: mountainHintState,
+          variables: {
+            mountain: this.mountain
+          },
+        })
       }
     }
   })

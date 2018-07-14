@@ -1,0 +1,9 @@
+#import '@fragments/mountains.graphql'
+
+query {
+  smountainHint @client {
+    mountain {
+      ...mount
+    }
+  }
+}

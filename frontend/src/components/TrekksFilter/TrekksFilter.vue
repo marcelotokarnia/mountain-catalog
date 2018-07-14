@@ -17,9 +17,11 @@ interface ITracksFilterInstance {
   elevationMin?: number
   elevationMax?: number
   mountains: IMountain[]
+  smePosition?: IPosition
 }
 
 const mountainsQuery = require('@queries/mountains.graphql')
+const mePositionQuery = require('@queries/mePositionState.graphql')
 const mountainsMutation = require('@mutations/mountainsState.graphql')
 import { IDataMountains, IMountain } from '@typings/mountains'
 import { ApolloQueryResult } from 'apollo-client'
@@ -48,6 +50,21 @@ export default Vue.extend({
         return true
       },
     },
+    smePosition: {
+      query: mePositionQuery,
+      result( { data }:
+        ApolloQueryResult<{smePosition: { position: IPosition } }>) {
+        this.reference = data.smePosition.position
+        if (this.distance && this.reference) {
+          this.$apollo.queries.mountains.refetch({
+            distance: {min: undefined, max: this.distance},
+            elevation: {min: this.elevationMin, max: this.elevationMax},
+            position: {lat: this.reference.lat, lng: this.reference.lng},
+          })
+          this.$apollo.queries.mountains.skip = false
+        }
+      },
+    }
   },
   components: {
     FilterOptions,
@@ -56,24 +73,11 @@ export default Vue.extend({
   },
   computed: {
   },
-  created() {
-      window.navigator.geolocation.getCurrentPosition(
-        ({coords: {latitude: lat, longitude: lng}}) => {
-          this.reference = {lat, lng}
-          if (this.distance) {
-            this.$apollo.queries.mountains.refetch({
-              distance: {min: undefined, max: this.distance},
-              elevation: {min: this.elevationMin, max: this.elevationMax},
-              position: {lat: this.reference.lat, lng: this.reference.lng},
-            })
-            this.$apollo.queries.mountains.skip = false
-          }
-        },
-      )
-  },
   data(): ITracksFilterInstance {
       return {
         mountains: [] as IMountain[],
+        smePosition: undefined,
+        reference: undefined,
       }
   },
   methods: {

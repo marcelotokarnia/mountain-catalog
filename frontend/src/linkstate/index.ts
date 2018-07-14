@@ -27,8 +27,16 @@ interface IDefaultObject {
 const defaults: IDefaultObject = {
   smap: {
     __typename: 'SMap',
-    center: {lat: 0, lng: 0, __typename: 'IPosition'} as IPosition,
+    center: {lat: -22, lng: -45, __typename: 'IPosition'} as IPosition,
     zoom: 5,
+  },
+  smePosition: {
+    __typename: 'SMe',
+    position: null,
+  },
+  smountainHint: {
+    __typename: 'SMountainHint',
+    mountain: null,
   },
   smountains: {
     __typename: 'SMountains',
@@ -38,17 +46,37 @@ const defaults: IDefaultObject = {
 
 const resolvers: IResolverObject = {
   Mutation: {
-    updateMountains(_: any, { mountains }: any, { cache }: IContext): void {
+    updateMePosition(_: any, { position }: any, { cache }: IContext): any {
+      const data = {
+        smePosition: {
+          __typename: 'SMe',
+          position: {...position, __typename: 'IPosition'},
+        },
+      }
+      cache.writeData({ data })
+      return data
+    },
+    updateMountainHint(_: any, { mountain }: any, { cache }: IContext): any {
+      const data = {
+        smountainHint: {
+          __typename: 'SMountains',
+          mountain,
+        },
+      }
+      cache.writeData({ data })
+      return data
+    },
+    updateMountains(_: any, { mountains }: any, { cache }: IContext): any {
       const data = {
         smountains: {
           __typename: 'SMountains',
           mountains,
         },
       }
-
-      return cache.writeData({ data })
+      cache.writeData({ data })
+      return data
     },
-    updateMap(_: any, { center, zoom }: any, { cache }: IContext): void {
+    updateMap(_: any, { center, zoom }: any, { cache }: IContext): any {
       let mapState
       try {
         mapState = cache.readQuery<any>({
@@ -66,7 +94,8 @@ const resolvers: IResolverObject = {
         },
       }
 
-      return cache.writeData({ data })
+      cache.writeData({ data })
+      return data
     },
   },
 }

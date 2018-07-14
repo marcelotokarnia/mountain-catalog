@@ -6,11 +6,17 @@
       map-type-id="terrain"
       class="col-9"
     >
-      <TrekkInfo :mountain="selectedMountain" :isOpen="infoWinOpen" :onClose="closeInfo" />
+      <TrekkInfo :mountain="selectedMountain" />
       <gmap-marker
+        v-if="me"
+        icon="/static/icons/bluedot.png"
+        :position="me"
+      />
+      <gmap-marker
+        :icon="`/static/icons/${getMountainIcon(m)}.png`"
         :key="m.id"
         v-for="m in smountains"
-        :position="{lat: m.position.lat, lng: m.position.lng}"
+        :position="m.position"
         :clickable="true"
         :draggable="false"
         @click="toggleInfoWindow(m)"
@@ -22,6 +28,7 @@
 
 <script lang='ts'>
   interface IMapsInstance {
+    me?: IPosition
     center?: IPosition
     zoom?: number
     smountains: IMountain[]
@@ -39,8 +46,11 @@
   import Vue from 'vue'
   import TrekkInfo from './TrekkInfo.vue'
   const mountainsState = require('@queries/mountainsState.graphql')
+  const mountainHintState = require('@queries/mountainHintState.graphql')
   const mapState = require('@queries/mapState.graphql')
   const mapMutation = require('@mutations/mapState.graphql')
+  const mountainHintMutation = require('@mutations/mountainHintState.graphql')
+  const mePositionMutation = require('@mutations/mePositionState.graphql')
 
   export default Vue.extend({
     apollo: {
@@ -54,10 +64,18 @@
       },
       smountains: {
         query: mountainsState,
-        result( { data: { smountains: { mountains } } }: ApolloQueryResult<{smountains: { mountains: IMountain[] } }>) {
+        result( { data: { smountains: { mountains } } }:
+          ApolloQueryResult<{smountains: { mountains: IMountain[] } }>) {
           this.smountains = mountains
         },
       },
+      smountainHint: {
+        query: mountainHintState,
+        result( { data: { smountainHint: { mountain } } }:
+          ApolloQueryResult<{smountainHint: { mountain: IMountain } }>) {
+          this.selectedMountain = mountain
+        },
+      }
     },
     components: {
       TrekkInfo,
@@ -68,6 +86,7 @@
     created() {
       window.navigator.geolocation.getCurrentPosition(
         ({coords: {latitude: lat, longitude: lng}}) => {
+          this.me = {lat, lng}
           this.$apollo.mutate({
             mutation: mapMutation,
             variables: {
@@ -75,26 +94,48 @@
               zoom: 5
             },
           })
+          this.$apollo.mutate({
+            mutation: mePositionMutation,
+            variables: {
+              position: {lat, lng},
+            },
+          })
         },
       )
     },
     data(): IMapsInstance {
         return {
+          me: undefined,
+          center: undefined,
+          zoom: undefined,
           infoWinOpen: false,
           selectedMountain: undefined,
           smountains: [] as IMountain[],
         }
     },
     methods: {
-      closeInfo(): void {
-        this.infoWinOpen = false
+      getMountainIcon(mountain: IMountain): string {
+        return mountain.elevation > 5000 ?
+          'mountainred' :
+          mountain.elevation > 3000 ?
+            'mountainyellow' :
+            'mountaingreen'
       },
       toggleInfoWindow(mountain: IMountain): void {
-        if (this.selectedMountain && this.selectedMountain.id === mountain.id) {
-          this.infoWinOpen = !this.infoWinOpen
+        if (R.equals(mountain.id, R.path(['id'], this.selectedMountain))){
+          this.$apollo.mutate({
+            mutation: mountainHintMutation,
+            variables: {
+              mountain: null,
+            },
+          })
         } else {
-          this.selectedMountain = mountain
-          this.infoWinOpen = true
+          this.$apollo.mutate({
+            mutation: mountainHintMutation,
+            variables: {
+              mountain,
+            },
+          })
         }
       },
     },

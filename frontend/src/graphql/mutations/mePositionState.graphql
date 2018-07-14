@@ -1,0 +1,3 @@
+mutation ($position: IPosition) {
+  updateMePosition(position: $position) @client
+}

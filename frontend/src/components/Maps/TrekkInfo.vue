@@ -3,8 +3,8 @@
     v-if="mountain"
     :options="infoOptions"
     :position="position"
-    :opened="isOpen"
-    @closeclick="infoWinOpen=false"
+    :opened="true"
+    @closeclick="onClose"
   >
     <div v-html="$formatMessage({id: 'maps.trekk-info.name-elevation'}, {
       elevation: mountain.elevation,
@@ -29,6 +29,8 @@
 
   import { IPosition } from '@typings/geo'
   import Vue from 'vue'
+  const mountainHintMutation = require('@mutations/mountainHintState.graphql')
+
   export default Vue.extend({
     computed: {
       position(): IPosition {
@@ -48,7 +50,17 @@
         },
       }
     },
+    methods: {
+      onClose(): void {
+        this.$apollo.mutate({
+          mutation: mountainHintMutation,
+          variables: {
+            mountain: null,
+          },
+        })
+      }
+    },
     name: 'TrekkInfo',
-    props: ['onClose', 'mountain', 'isOpen'],
+    props: ['mountain'],
   })
 </script>

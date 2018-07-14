@@ -1,0 +1,8 @@
+query {
+  smePosition @client {
+    position {
+      lat
+      lng
+    }
+  }
+}

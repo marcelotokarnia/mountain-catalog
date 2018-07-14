@@ -1,0 +1,7 @@
+#import '@fragments/mountains.graphql'
+
+query($id: String) {
+  mountain(id: $id) {
+    ...mount
+  }
+}

@@ -2,7 +2,13 @@
   <div>
     <FilterOptions :filterMountains="filterMountains" />
     <FilterSort :sortMountains="sortMountains" />
-    <MountainCard v-for="mountain in mountains" :key="mountain.id" :mountain="mountain" class="mb-2"/>
+    <MountainCard
+      :ref="`mountainCard${mountain.id}`"
+      v-for="mountain in mountains"
+      :key="mountain.id"
+      :mountain="mountain"
+      class="mb-2"
+    />
   </div>
 </template>
 
@@ -11,7 +17,8 @@ interface IPosition {
   lat: number
   lng: number
 }
-interface ITracksFilterInstance {
+interface ITrekksFilterInstance {
+  loading: boolean,
   reference?: IPosition
   distance?: number
   elevationMin?: number
@@ -23,19 +30,21 @@ interface ITracksFilterInstance {
 const mountainsQuery = require('@queries/mountains.graphql')
 const mePositionQuery = require('@queries/mePositionState.graphql')
 const mountainsMutation = require('@mutations/mountainsState.graphql')
+import FilterOptions from '@components/TrekksFilter/FilterOptions.vue'
+import FilterSort from '@components/TrekksFilter/FilterSort.vue'
+import MountainCard from '@components/TrekksFilter/MountainCard.vue'
 import { IDataMountains, IMountain } from '@typings/mountains'
 import { ApolloQueryResult } from 'apollo-client'
 import gql from 'graphql-tag'
 import * as R from 'ramda'
 import Vue from 'vue'
-import MountainCard from '@components/TrekksFilter/MountainCard.vue'
-import FilterOptions from '@components/TrekksFilter/FilterOptions.vue'
-import FilterSort from '@components/TrekksFilter/FilterSort.vue'
 
 export default Vue.extend({
   apollo: {
     mountains: {
-      loadingKey: 'loading',
+      watchLoading(isLoading) {
+        this.loading = isLoading
+      },
       query: mountainsQuery,
       result( { data: { mountains } }: ApolloQueryResult<IDataMountains>) {
         this.mountains = mountains
@@ -64,7 +73,7 @@ export default Vue.extend({
           this.$apollo.queries.mountains.skip = false
         }
       },
-    }
+    },
   },
   components: {
     FilterOptions,
@@ -73,11 +82,12 @@ export default Vue.extend({
   },
   computed: {
   },
-  data(): ITracksFilterInstance {
+  data(): ITrekksFilterInstance {
       return {
+        loading: false,
         mountains: [] as IMountain[],
-        smePosition: undefined,
         reference: undefined,
+        smePosition: undefined,
       }
   },
   methods: {
@@ -97,7 +107,7 @@ export default Vue.extend({
       return
     },
   },
-  name: 'TracksFilter',
+  name: 'TrekksFilter',
   props: [],
 })
 </script>

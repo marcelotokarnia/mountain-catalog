@@ -7,5 +7,5 @@ interface IMap {
 }
 
 export {
-  IMap
+  IMap,
 }

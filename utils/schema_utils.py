@@ -1,10 +1,12 @@
 from graphql.language.ast import FragmentSpread, Field
 
+
 def find_operation_field(fields, name):
     for field in fields:
         if field.name.value == name:
             return field
     return None
+
 
 def get_selections(field, fragments):
     fields = []

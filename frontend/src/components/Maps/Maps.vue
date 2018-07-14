@@ -22,7 +22,7 @@
         @click="toggleInfoWindow(m)"
       />
     </gmap-map>
-    <TrekksFilter class="col-3 pre-scrollable scrollable-view" />
+    <TrekksFilter ref="trekksFilter" class="col-3 pre-scrollable scrollable-view" />
   </div>
 </template>
 
@@ -36,10 +36,10 @@
     infoWinOpen: boolean
   }
 
+  import TrekksFilter from '@components/TrekksFilter'
   import { IPosition } from '@typings/geo'
   import { IMap } from '@typings/map'
   import { IDataMountains, IMountain } from '@typings/mountains'
-  import TrekksFilter from '@components/TrekksFilter'
   import { ApolloQueryResult } from 'apollo-client'
   import gql from 'graphql-tag'
   import * as R from 'ramda'
@@ -52,6 +52,13 @@
   const mountainHintMutation = require('@mutations/mountainHintState.graphql')
   const mePositionMutation = require('@mutations/mePositionState.graphql')
 
+  const scrollIntoView = (mountainId: number, mapsComponent: Vue) => {
+    const el = R.path(
+      ['$refs', 'trekksFilter', '$refs', `mountainCard${mountainId}`, 0, '$el'],
+    )(mapsComponent) as Element
+    el.scrollIntoView()
+  }
+
   export default Vue.extend({
     apollo: {
       smap: {
@@ -62,6 +69,13 @@
           this.zoom = zoom
         },
       },
+      smountainHint: {
+        query: mountainHintState,
+        result( { data: { smountainHint: { mountain } } }:
+          ApolloQueryResult<{smountainHint: { mountain: IMountain } }>) {
+          this.selectedMountain = mountain
+        },
+      },
       smountains: {
         query: mountainsState,
         result( { data: { smountains: { mountains } } }:
@@ -69,13 +83,6 @@
           this.smountains = mountains
         },
       },
-      smountainHint: {
-        query: mountainHintState,
-        result( { data: { smountainHint: { mountain } } }:
-          ApolloQueryResult<{smountainHint: { mountain: IMountain } }>) {
-          this.selectedMountain = mountain
-        },
-      }
     },
     components: {
       TrekkInfo,
@@ -91,7 +98,7 @@
             mutation: mapMutation,
             variables: {
               center: {lat, lng},
-              zoom: 5
+              zoom: 5,
             },
           })
           this.$apollo.mutate({
@@ -105,12 +112,12 @@
     },
     data(): IMapsInstance {
         return {
-          me: undefined,
           center: undefined,
-          zoom: undefined,
           infoWinOpen: false,
+          me: undefined,
           selectedMountain: undefined,
           smountains: [] as IMountain[],
+          zoom: undefined,
         }
     },
     methods: {
@@ -122,7 +129,7 @@
             'mountaingreen'
       },
       toggleInfoWindow(mountain: IMountain): void {
-        if (R.equals(mountain.id, R.path(['id'], this.selectedMountain))){
+        if (R.equals(mountain.id, R.path(['id'], this.selectedMountain))) {
           this.$apollo.mutate({
             mutation: mountainHintMutation,
             variables: {
@@ -136,6 +143,7 @@
               mountain,
             },
           })
+          scrollIntoView(mountain.id, this)
         }
       },
     },

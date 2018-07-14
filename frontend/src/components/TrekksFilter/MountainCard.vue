@@ -23,24 +23,24 @@
   const mountainHintState = require('@mutations/mountainHintState.graphql')
 
   export default Vue.extend({
-    name: 'MountainCard',
-    props: ["mountain"],
     methods: {
       seeOnMap(): void {
         this.$apollo.mutate({
           mutation: mapMutation,
           variables: {
             center: this.mountain.position,
-            zoom: 5
+            zoom: 5,
           },
         })
         this.$apollo.mutate({
           mutation: mountainHintState,
           variables: {
-            mountain: this.mountain
+            mountain: this.mountain,
           },
         })
-      }
-    }
+      },
+    },
+    name: 'MountainCard',
+    props: ['mountain'],
   })
 </script>

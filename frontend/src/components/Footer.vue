@@ -5,13 +5,13 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue'
-  import Umbler from '@components/Umbler.vue'
-  export default Vue.extend({
-    name: 'Footer',
+    import Umbler from '@components/Umbler.vue'
+    import Vue from 'vue'
+    export default Vue.extend({
     components: {
-      Umbler
-    }
+      Umbler,
+    },
+    name: 'Footer',
   })
 </script>
 

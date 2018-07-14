@@ -1,7 +1,9 @@
 from utils.models_utils import BaseModel
 from django.contrib.gis.db import models
 from mountains.models import Mountain
+from django.contrib.gis.geos import GEOSGeometry
 from django.contrib.auth.models import User
+
 
 class TextRecord(BaseModel):
     title = models.CharField(max_length=1024)

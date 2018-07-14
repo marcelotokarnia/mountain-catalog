@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 import dj_database_url
-from catalog.aws.conf import *
+from catalog.aws.conf import *  # noqa: F403,F401
 # https://www.codingforentrepreneurs.com/blog/s3-static-media-files-for-django/
 
 

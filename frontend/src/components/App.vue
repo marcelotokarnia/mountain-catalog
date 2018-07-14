@@ -9,11 +9,11 @@
 </template>
 
 <script lang="ts">
-    import Main from '@components/Main'
-    import Navbar from '@components/Navbar'
-    import Footer from '@components/Footer'
-    import Vue from 'vue'
-    export default Vue.extend({
+        import Footer from '@components/Footer'
+        import Main from '@components/Main'
+        import Navbar from '@components/Navbar'
+        import Vue from 'vue'
+        export default Vue.extend({
     components: {
       Footer,
       Main,

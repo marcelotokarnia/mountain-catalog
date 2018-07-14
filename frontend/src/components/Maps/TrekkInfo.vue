@@ -58,7 +58,7 @@
             mountain: null,
           },
         })
-      }
+      },
     },
     name: 'TrekkInfo',
     props: ['mountain'],

@@ -1,6 +1,6 @@
 import Maps from '@components/Maps'
-import UserProfile from '@components/UserProfile'
 import MountainProfile from '@components/MountainProfile'
+import UserProfile from '@components/UserProfile'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 

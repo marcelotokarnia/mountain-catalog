@@ -61,17 +61,17 @@ export default Vue.extend({
     },
     smePosition: {
       query: mePositionQuery,
-      result( { data }:
+      result( { data: {smePosition: { position } } }:
         ApolloQueryResult<{smePosition: { position: IPosition } }>) {
-        this.reference = data.smePosition.position
-        if (this.distance && this.reference) {
-          this.$apollo.queries.mountains.refetch({
-            distance: {min: undefined, max: this.distance},
-            elevation: {min: this.elevationMin, max: this.elevationMax},
-            position: {lat: this.reference.lat, lng: this.reference.lng},
-          })
-          this.$apollo.queries.mountains.skip = false
-        }
+          this.reference = position
+          if (this.distance && this.reference) {
+            this.$apollo.queries.mountains.refetch({
+              distance: {min: undefined, max: this.distance},
+              elevation: {min: this.elevationMin, max: this.elevationMax},
+              position: {lat: this.reference.lat, lng: this.reference.lng},
+            })
+            this.$apollo.queries.mountains.skip = false
+          }
       },
     },
   },

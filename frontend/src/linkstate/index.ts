@@ -1,10 +1,16 @@
 import { IPosition } from '@typings/geo'
 import { IMountain } from '@typings/mountains'
+import { path } from 'ramda'
 const mapQuery = require('@queries/mapState.graphql')
+const mePositionQuery = require('@queries/mePositionState.graphql')
 import { InMemoryCache } from 'apollo-cache-inmemory'
+import * as Bluebird from 'bluebird'
+
+const queryMemory = new InMemoryCache()
 
 interface IResolverObject {
   Mutation?: IResolverProp
+  Query?: IResolverProp
 }
 
 interface IResolverProp {
@@ -29,10 +35,6 @@ const defaults: IDefaultObject = {
     __typename: 'SMap',
     center: {lat: -22, lng: -45, __typename: 'IPosition'} as IPosition,
     zoom: 5,
-  },
-  smePosition: {
-    __typename: 'SMe',
-    position: null,
   },
   smountainHint: {
     __typename: 'SMountainHint',
@@ -96,6 +98,25 @@ const resolvers: IResolverObject = {
 
       cache.writeData({ data })
       return data
+    },
+  },
+  Query: {
+    async smePosition(_: any, {}: any, { cache }: IContext): Bluebird<any> {
+      return new Bluebird((resolve: any, reject: any): void => {
+        window.navigator.geolocation.getCurrentPosition(
+          ({coords: {latitude: lat, longitude: lng}}) => {
+            const data = {
+              smePosition: {
+                __typename: 'SMe',
+                position: {lat, lng , __typename: 'IPosition'},
+              },
+            }
+            queryMemory.writeData({ data })
+            cache.writeData({ data })
+            resolve()
+          },
+        )
+      })
     },
   },
 }

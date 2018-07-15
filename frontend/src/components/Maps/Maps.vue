@@ -51,6 +51,7 @@
   const mapMutation = require('@mutations/mapState.graphql')
   const mountainHintMutation = require('@mutations/mountainHintState.graphql')
   const mePositionMutation = require('@mutations/mePositionState.graphql')
+  const mePositionQuery = require('@queries/mePositionState.graphql')
 
   const scrollIntoView = (mountainId: number, mapsComponent: Vue) => {
     const el = R.path(
@@ -67,6 +68,20 @@
           const { data: { smap: { center, zoom } } } = result
           this.center = center
           this.zoom = zoom
+        },
+      },
+      smePosition: {
+        query: mePositionQuery,
+        result({data: {smePosition: { position } } }:
+          ApolloQueryResult<{smePosition: { position: IPosition } }>) {
+          this.me = position
+          this.$apollo.mutate({
+            mutation: mapMutation,
+            variables: {
+              center: position,
+              zoom: 5,
+            },
+          })
         },
       },
       smountainHint: {
@@ -89,26 +104,6 @@
       TrekksFilter,
     },
     computed: {
-    },
-    created() {
-      window.navigator.geolocation.getCurrentPosition(
-        ({coords: {latitude: lat, longitude: lng}}) => {
-          this.me = {lat, lng}
-          this.$apollo.mutate({
-            mutation: mapMutation,
-            variables: {
-              center: {lat, lng},
-              zoom: 5,
-            },
-          })
-          this.$apollo.mutate({
-            mutation: mePositionMutation,
-            variables: {
-              position: {lat, lng},
-            },
-          })
-        },
-      )
     },
     data(): IMapsInstance {
         return {

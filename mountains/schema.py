@@ -82,17 +82,23 @@ class Query(graphene.ObjectType):
     mountain = graphene.Field(
         MountainType,
         id=graphene.String(),
+        position=Position(),
         description="Detailed query a mountain with given ID"
     )
 
     def resolve_mountain(self, info, **args):
         mountain_id = args.get('id')
+        position = args.get('position')
         selections = get_selections(
             find_operation_field(info.field_asts, 'mountain'),
             info.fragments
         )
 
-        mount = Mountain.objects.filter(pk=mountain_id).first()
+        queryset = Mountain.objects.filter(pk=mountain_id)
+        if position is not None:
+            pnt = position.point
+            queryset = queryset.annotate(distance=Distance('spot', pnt))
+        mount = queryset.first()
         if mount:
             return MountainType(mount, selections)
         else:

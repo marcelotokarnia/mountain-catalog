@@ -1,6 +1,31 @@
 <template>
   <div>
-    {{loading ? 'loading': mountain.distance}}
+    <div v-if="loading">LOADING</div>
+    <div v-if="!loading && mountain">
+      <div>
+        <img v-if="mountain.image" :src="mountain.image">
+        <p v-html="`${mountain.name} - ${mountain.elevation}m`" />
+      </div>
+      <div>
+        <p v-html="$formatMessage({id: 'mountain-profile.distance'}, {
+          distance: mountain.distance
+        })" />
+      </div>
+      <div>
+        <p v-html="$formatMessage({id: 'mountain-profile.position'}, {
+          country: mountain.country,
+          lat: mountain.position.lat,
+          lng: mountain.position.lng,
+        })" />
+        <p v-html="`${mountain.region}, ${mountain.state}, ${mountain.province}`" />
+      </div>
+      <div v-if="mountain.curiosities">
+        <p v-for="(curi, idx) in mountain.curiosities.split('\n')" :key="idx" v-html="curi" />
+      </div>
+      <div v-html="$formatMessage({id: 'mountain-profile.created_by'}, {
+        createdBy: mountain.createdBy
+      })" />
+    </div>
   </div>
 </template>
 

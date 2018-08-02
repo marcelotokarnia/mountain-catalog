@@ -3,5 +3,10 @@
 query($id: String, $position: Position) {
   mountain(id: $id, position: $position) {
     ...mount
+    province
+    state
+    region
+    createdBy
+    curiosities
   }
 }

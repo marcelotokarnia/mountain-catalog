@@ -1,6 +1,9 @@
 {
   "maps.trekk-info.name-elevation": "{name}: {elevation}m",
   "maps.trekk-info.distance": "{distance}km away",
+  "mountain-profile.distance": "You are {distance}km away from it",
+  "mountain-profile.position": "{country}, located on (lat: {lat}, lng: {lng})",
+  "mountain-profile.created_by": "This mountain was first registered by <a href='/profile/{createdBy}'>{createdBy}</a>",
   "profile.profile.profile": "Profile",
   "trekks-filter.mountain-card.image-alt": "{name} best image",
   "trekks-filter.trekks-filter.name": "Name: {name}",

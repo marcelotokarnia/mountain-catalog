@@ -6,8 +6,6 @@ const mePositionQuery = require('@queries/mePositionState.graphql')
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import * as Bluebird from 'bluebird'
 
-const queryMemory = new InMemoryCache()
-
 interface IResolverObject {
   Mutation?: IResolverProp
   Query?: IResolverProp
@@ -111,7 +109,6 @@ const resolvers: IResolverObject = {
                 position: {lat, lng , __typename: 'IPosition'},
               },
             }
-            queryMemory.writeData({ data })
             cache.writeData({ data })
             resolve()
           },

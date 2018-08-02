@@ -26,6 +26,11 @@ class MountainType(graphene.ObjectType):
     name = graphene.String()
     country = graphene.String()
     image = graphene.String()
+    province = graphene.String()
+    state = graphene.String()
+    curiosities = graphene.String()
+    region = graphene.String()
+    created_by = graphene.String()
 
     def __init__(self, mountain, selections):
         if hasattr(mountain, 'distance'):
@@ -37,6 +42,11 @@ class MountainType(graphene.ObjectType):
         self.elevation = mountain.elevation
         self.country = mountain.country
         self.id = mountain.id
+        self.province = mountain.province
+        self.state = mountain.state
+        self.curiosities = mountain.curiosities
+        self.region = mountain.region
+        self.created_by = mountain.created_by.username
         if 'image' in selections:
             imageRecord = mountain.images.order_by('-votes').first()
             if imageRecord:

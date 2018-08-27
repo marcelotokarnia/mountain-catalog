@@ -14,16 +14,6 @@ const link = new HttpLink({
   uri: '/graphql',
 })
 
-const authMiddleware = new ApolloLink((operation: Operation, forward?: NextLink) => {
-  // add the authorization to the headers
-  operation.setContext({
-      headers: {
-      'X-CSRFToken': CSRFTOKEN || 'csrf-token-not-set',
-      },
-  })
-  return forward ? forward(operation) : null
-})
-
 const cache = new InMemoryCache()
 
 const stateLink = withClientState({
@@ -35,7 +25,7 @@ const stateLink = withClientState({
 const apolloClient = new ApolloClient({
   cache,
   connectToDevTools: true,
-  link: ApolloLink.from([stateLink, authMiddleware, link]),
+  link: ApolloLink.from([stateLink, link]),
 })
 
 const apolloProvider = new VueApollo({

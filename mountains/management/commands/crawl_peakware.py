@@ -13,15 +13,15 @@ def parse_value_if_exists(key, mountain):
 
 def curiosities(mountain):
     return "%s%s%s%s%s%s%s" % (
-      'First ascent on %s by %s\n' % (
-          mountain.get('Year first climbed'), mountain.get('First successful climber(s)')
-      ) if mountain.get('Year first climbed') or mountain.get('First successful climber(s)') else '',
-      parse_value_if_exists('Nearest major airport', mountain),
-      parse_value_if_exists('description', mountain),
-      parse_value_if_exists('Best months for climbing', mountain),
-      parse_value_if_exists('Most recent eruption', mountain),
-      parse_value_if_exists('Convenient Center', mountain),
-      parse_value_if_exists('Volcanic status', mountain),
+        'First ascent on %s by %s\n' % (
+            mountain.get('Year first climbed'), mountain.get('First successful climber(s)')
+        ) if mountain.get('Year first climbed') or mountain.get('First successful climber(s)') else '',
+        parse_value_if_exists('Nearest major airport', mountain),
+        parse_value_if_exists('description', mountain),
+        parse_value_if_exists('Best months for climbing', mountain),
+        parse_value_if_exists('Most recent eruption', mountain),
+        parse_value_if_exists('Convenient Center', mountain),
+        parse_value_if_exists('Volcanic status', mountain),
     )
 
 
@@ -32,7 +32,7 @@ def transform(mountain):
         'province': mountain.get('Province'),
         'difficulty': mountain.get('Difficulty'),
         'elevation': int(
-          float(mountain['Elevation (meters)'].replace(',', ''))
+            float(mountain['Elevation (meters)'].replace(',', ''))
         ) if mountain.get('Elevation (meters)') else 0,
         'name': mountain['name'],
         'country': mountain.get('Country'),

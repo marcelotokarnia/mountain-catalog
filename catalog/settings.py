@@ -33,6 +33,9 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'www.trekkpedia.com']
 
 # Application definition
 
+STRAVA_CLIENT_SECRET = os.getenv('STRAVA_CLIENT_SECRET', 'not_set')
+STRAVA_ACCESS_TOKEN = os.getenv('STRAVA_ACCESS_TOKEN', 'not_set')
+
 INSTALLED_APPS = [
     'core',
     'mountains',

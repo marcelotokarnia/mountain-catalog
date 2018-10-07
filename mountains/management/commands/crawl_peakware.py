@@ -38,6 +38,7 @@ def transform(mountain):
         'country': mountain.get('Country'),
         'state': mountain.get('State'),
         'region': mountain.get('Range/Region'),
+        'created_by_id': 1,
     }
 
 

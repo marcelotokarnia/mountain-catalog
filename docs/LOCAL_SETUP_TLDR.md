@@ -26,7 +26,7 @@ DATABASE AND RUNSERVER
 
 * `sudo apt update`
 
-* `sudo apt install postgresql postgresql-contrib postgis`
+* `sudo apt install -y postgresql postgresql-contrib postgis`
 
 * `sudo su postgres`
 

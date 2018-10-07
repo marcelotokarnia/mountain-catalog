@@ -63,7 +63,8 @@ You need this to server webpack automagically bundled assets after each change o
 First, you will need postgres
 
 `sudo apt-get update`
-`sudo apt-get install postgresql postgresql-contrib`
+
+`sudo apt-get install -y postgresql postgresql-contrib`
 
 Then, you will need postgis extension
 
@@ -71,7 +72,7 @@ Then, you will need postgis extension
 
 `sudo apt-get update`
 
-`sudo apt-get install postgis`
+`sudo apt-get install -y postgis`
 
 Now, set your postgres user and database:
 
@@ -107,7 +108,7 @@ All set, to disconnect from database:
 
 Then switch back to your user:
 
-`su`
+`exit`
 
 ### F. Migrate database schema
 

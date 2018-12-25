@@ -32,7 +32,7 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'www.trekkpedia.com']
 
 
 # Application definition
-
+GDAL_LIBRARY_PATH = os.getenv('GDAL_LIBRARY_PATH', 'not_set')
 STRAVA_CLIENT_SECRET = os.getenv('STRAVA_CLIENT_SECRET', 'not_set')
 STRAVA_ACCESS_TOKEN = os.getenv('STRAVA_ACCESS_TOKEN', 'not_set')
 

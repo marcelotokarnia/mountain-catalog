@@ -19,10 +19,12 @@ from django.urls import path
 from django.conf.urls import url
 from graphene_django.views import GraphQLView
 from mountains.views import index
+from core.views import authenticate
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    url('authenticate', authenticate),
     url(r'^graphql', GraphQLView.as_view(graphiql=True)),
     url(r'', index, name="index"),
 ]

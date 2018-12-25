@@ -19,12 +19,13 @@ from django.urls import path
 from django.conf.urls import url
 from graphene_django.views import GraphQLView
 from mountains.views import index
-from core.views import authenticate
+from core.views import authenticate, get_strava_kml
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     url('authenticate', authenticate),
+    url('get_strava_kml', get_strava_kml),
     url(r'^graphql', GraphQLView.as_view(graphiql=True)),
     url(r'', index, name="index"),
 ]

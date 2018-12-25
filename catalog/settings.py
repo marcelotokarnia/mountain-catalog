@@ -87,6 +87,8 @@ TEMPLATES = [
     },
 ]
 
+DEFAULT_CHARSET='UTF-8'
+
 WSGI_APPLICATION = 'catalog.wsgi.application'
 
 

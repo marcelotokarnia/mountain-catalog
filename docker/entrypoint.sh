@@ -1,11 +1,6 @@
 #!/bin/bash
 
 APP=/app
-export PYTHONIOENCODING="UTF-8"
-export DB_NAME=catalog
-export DB_USER=catalog
-export DB_HOST=localhost
-export DB_PORT=5432
 
 function waitpidkilled {
     pid=$1

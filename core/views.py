@@ -30,11 +30,14 @@ def authenticate(request):
   login(request, user)
   return HttpResponse(status=204)
 
-def get_strava_kml(request):
-  access_token = request.user.profile.strava_auth_token
+def get_strava_kml(request, username):
+  access_token = User.objects.get(username=username).profile.strava_auth_token
   r = requests.get('https://www.strava.com/api/v3/athlete/activities', headers={
     'Authorization': 'Bearer %s' % access_token,
   })
-  response = HttpResponse(strava2kml(r.json()), content_type='application/vnd.google-earth.kml+xml')
+  response = HttpResponse(strava2kml(r.json()), status=200)
+  response['Content-Type'] = 'application/vnd.google-earth.kml+xml'
   response['Content-Disposition'] = 'attachment; filename=strava.kml'
+  response['Access-Control-Allow-Origin'] = '*'
+  response['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept'
   return response

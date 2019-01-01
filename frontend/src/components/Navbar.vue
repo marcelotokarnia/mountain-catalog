@@ -1,20 +1,16 @@
 <template>
   <nav class="navbar navbar-expand-md navbar-success bg-success fixed-top">
-    <div class="navbar-brand" id="navbar-title">Trekkpedia</div>
-    <div class="float-right"><a :href="href">STRAVA</a></div>
+    <router-link class="navbar-brand p-2" id="navbar-title" :to="'/'">Trekkpedia</router-link>
+    <UserNavbar />
   </nav>
 </template>
 
 <script lang="ts">
-  interface INavbarInstance {
-    href: string
-  }
   import Vue from 'vue'
+  import UserNavbar from '@components/UserProfile/UserNavbar.vue'
   export default Vue.extend({
-    data(): INavbarInstance {
-      return { 
-        href: `https://www.strava.com/oauth/authorize?client_id=28106&redirect_uri=https://${window.location.host}/strava-login&response_type=code&scope=activity:read_all` 
-      }
+    components: {
+      UserNavbar
     },
     name: 'Navbar',
   })
@@ -23,4 +19,6 @@
 <style scoped lang="stylus">
   #navbar-title
     padding-left 5rem
+  nav
+    height 4rem
 </style>

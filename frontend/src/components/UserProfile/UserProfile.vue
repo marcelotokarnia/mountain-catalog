@@ -1,17 +1,13 @@
 <template>
-  <div>
-    {{$formatMessage({id: 'profile.profile.profile'})}}
-    {{user ? user.username : ''}}
-    <div class="row maps-main" style="height: 500px;">
-      <gmap-map
-        ref="map"
-        :center="{lat: 59.332254, lng: 18.017310}"
-        :zoom="5"
-        map-type-id="terrain"
-        class="col-9 h-100"
-      >
-      </gmap-map>
-    </div>
+  <div class="row h-100">
+    <gmap-map
+      ref="map"
+      :center="{lat: 59.332254, lng: 18.017310}"
+      :zoom="5"
+      map-type-id="terrain"
+      class="col-9 mt-4"
+    >
+    </gmap-map>
   </div>
 </template>
 
@@ -30,28 +26,41 @@ export default Vue.extend({
           window.location.replace('/login')
         }
         this.user = user
-        const self: any = this;
-        self.$refs.map.$mapPromise.then(
+        if (this.$el) {
+          this.load_kml()
+        }
+      },
+    },
+  },
+  data(): {user: {username: string} | null} {
+    return {
+      user: null,
+    }
+  },
+  methods: {
+    load_kml() {
+      const self: any = this
+      if (self.kml) {
+        return
+      }
+      self.$refs.map.$mapPromise.then(
         () => {
             var options = {
               preserveViewport: true, 
               clickable: true,
               visibility: "visible",
-              url: `https://${window.location.host}/get_strava_kml/${this.user!.username}`
+              url: `http://${window.location.host}/get_strava_kml/${self.user!.username}`
             };
             self.kml = new google.maps.KmlLayer(options);
             self.kml.setMap(self.$refs.map.$mapObject)
-        })
-      },
-    },
-  },
-  data() : {user: {username: string} | null} {
-    return {
-      user: null
+        }
+      )
     }
   },
-  methods: {
-
+  mounted() {
+    if (!this.$apollo.queries.user.loading) {
+      this.load_kml()
+    }
   },
   name: 'UserProfile',
   props: [],

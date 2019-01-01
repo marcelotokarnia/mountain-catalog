@@ -1,15 +1,15 @@
 <template>
   <nav class="navbar navbar-expand-md navbar-success bg-success fixed-bottom">
-    <Umbler />
+    <SocialMedia />
   </nav>
 </template>
 
 <script lang="ts">
-    import Umbler from '@components/Umbler.vue'
+    import SocialMedia from '@components/Footer/SocialMedia.vue'
     import Vue from 'vue'
     export default Vue.extend({
     components: {
-      Umbler,
+      SocialMedia,
     },
     name: 'Footer',
   })
@@ -17,5 +17,5 @@
 
 <style scoped lang="stylus">
   .navbar
-    height 3.5rem
+    height 3rem
 </style>

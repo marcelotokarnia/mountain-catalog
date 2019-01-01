@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-        import Footer from '@components/Footer'
+        import Footer from '@components/Footer/Footer.vue'
         import Main from '@components/Main'
         import Navbar from '@components/Navbar'
         import Vue from 'vue'

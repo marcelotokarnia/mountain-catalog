@@ -11,7 +11,7 @@ django-graphiql==0.4.4
 django-storages==1.6.6
 docutils==0.14
 flake8==3.5.0
-GDAL==2.3.2
+GDAL==2.2.4
 graphene==2.1.1
 graphene-django==2.0.0
 graphql-core==2.0

@@ -1,10 +1,10 @@
 <template>
-  <div class="row maps-main">
+  <div class="row h-100">
     <gmap-map
       :center="center"
       :zoom="zoom"
       map-type-id="terrain"
-      class="col-9"
+      class="col-9 mt-4"
     >
       <TrekkInfo :mountain="selectedMountain" />
       <gmap-marker
@@ -22,7 +22,7 @@
         @click="toggleInfoWindow(m)"
       />
     </gmap-map>
-    <TrekksFilter ref="trekksFilter" class="col-3 pre-scrollable scrollable-view" />
+    <TrekksFilter ref="trekksFilter" class="col-3 mt-4 pre-scrollable mh-100" />
   </div>
 </template>
 
@@ -146,10 +146,3 @@
     props: [],
   })
 </script>
-
-<style lang="stylus" scoped>
-  .maps-main
-    height 100%
-  .scrollable-view
-    max-height 100%
-</style>

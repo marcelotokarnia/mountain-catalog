@@ -106,6 +106,7 @@ module.exports = {
       { from: 'assets/js/*', to: 'js/[name].[ext]' },
       { from: 'assets/css/*', to: 'css/[name].[ext]' },
       { from: 'assets/icons/*', to: 'icons/[name].[ext]' },
+      { from: 'assets/icons/social/*', to: 'icons/social/[name].[ext]' },
       { from: 'assets/favicon.png', to: '[name].[ext]' },
     ]),
   ],

@@ -6,6 +6,7 @@ from mountains.models import Mountain
 def resolve_meta_tags(request):
     country = request.GET.get('country')
     random = request.GET.get('random')
+    user = request.user
     if country or random:
         if country:
             queryset = Mountain.objects.filter(country__iexact=country)
@@ -16,6 +17,11 @@ def resolve_meta_tags(request):
             random_index = randint(0, count - 1)
             mount = queryset[random_index]
             return {
+                'user': {
+                    'name': user.first_name + ' ' + user.last_name,
+                    'email': user.email,
+                    'username': user.username
+                } if not user.is_anonymous else {},
                 'image': ['/static/thumbs/agulhas.jpg', '/static/thumbs/jalapa.jpg'][random_index % 2],
                 'description': 'Elevation: %sm' % mount.elevation,
                 'author': 'Marcelo Tokarnia',
@@ -24,6 +30,11 @@ def resolve_meta_tags(request):
                 'keywords': 'Django,Vue,ApolloLinkState,SPA,Javascript,Python,Graphql'
             }
     return {
+        'user': {
+            'name': user.first_name + ' ' + user.last_name,
+            'email': user.email,
+            'username': user.username
+        } if not user.is_anonymous else {},
         'image': '/static/thumbs/agulhas.jpg',
         'description': 'Find out the biggest mountains around you, and conquer them.',
         'author': 'Marcelo Tokarnia',

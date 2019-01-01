@@ -1,4 +1,4 @@
-FROM marcelotokarnia/trackpedia:0.0.6
+FROM marcelotokarnia/trackpedia:0.0.25
 
 MAINTAINER Marcelo Tokarnia <marcelo.tokarnia@gmail.com>
 

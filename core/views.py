@@ -3,8 +3,8 @@ from django.conf import settings
 from django.contrib.auth import login
 from django.contrib.auth.models import User
 from core.services.strava2kml import strava2kml
-import requests
 import json
+import requests
 
 def authenticate(request):
   json_body = json.loads(request.body.decode('utf-8'))
@@ -31,12 +31,7 @@ def authenticate(request):
   return HttpResponse(status=204)
 
 def get_strava_kml(request, username):
-  access_token = User.objects.get(username=username).profile.strava_auth_token
-  r = requests.get('https://www.strava.com/api/v3/athlete/activities', headers={
-    'Authorization': 'Bearer %s' % access_token,
-  })
-  response = HttpResponse(strava2kml(r.json()), status=200)
-  response['Content-Type'] = 'application/vnd.google-earth.kml+xml'
+  response = HttpResponse(strava2kml(username), content_type='application/vnd.google-earth.kml+xml')
   response['Content-Disposition'] = 'attachment; filename=strava.kml'
   response['Access-Control-Allow-Origin'] = '*'
   response['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept'

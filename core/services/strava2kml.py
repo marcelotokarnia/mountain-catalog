@@ -1,16 +1,45 @@
 import polyline
+from functools import lru_cache
+from django.contrib.auth.models import User
+import requests
 
-def activity2kml(name, summary, i):
+def elapsed_time(elapsed):
+  hours = elapsed // 3600
+  elapsed = elapsed % 3600
+  minutes = elapsed // 60
+  seconds = elapsed % 60
+  time = ''
+  if hours > 0:
+    time += '%dh' % hours 
+  if minutes > 0:
+    time += '%dm' % minutes
+  return '%s%ds' % (time, seconds)
+
+def get_activity_description(activity):
+  return """📅 {startdate} ({elapsed}) <br><br>
+  🏁 {distance} <br>
+  🏅 {achievements} <br>
+  ⛰️ {elevation} <br>
+  ⌚ {speed_pace} <br>""".format(
+    startdate=activity['start_date_local'],
+    elapsed=elapsed_time(activity['elapsed_time']),
+    distance='%.2f km' % (activity['distance'] / 1000),
+    achievements='%s' % activity['achievement_count'],
+    elevation='%s m gain' % activity['total_elevation_gain'],
+    speed_pace='%.2f km/h (%.2f min/km)' % (activity['average_speed'] * 3.6, 50 / 3 / activity['average_speed']),
+  )
+
+def activity2kml(activity, i):
+    summary = activity['map']['summary_polyline']
     coords = polyline.decode(summary)
     colors = ['blueLine', 'redLine', 'greenLine', 
       'orangeLine', 'yellowLine', 'pinkLine', 
       'brownLine', 'purpleLine'
     ]
-    return """
-    <Placemark>
+    return """    <Placemark id="{id}">
       <name>{name}</name>
       <visibility>0</visibility>
-      <description>DESCRIPTION</description>
+      <description>{description}</description>
       <LookAt>
         <longitude>{longitude}</longitude>
         <latitude>{latitude}</latitude>
@@ -28,16 +57,23 @@ def activity2kml(name, summary, i):
         </coordinates>
       </LineString>
     </Placemark>""".format(
-      name=name, 
+      id=activity['id'],
+      name=activity['name'], 
+      description=get_activity_description(activity),
       longitude=coords[0][1], 
       latitude=coords[0][0], 
       color=colors[i%len(colors)], 
       coordinates='\n                    '.join(['%s,%s,2357' % (lng,lat) for (lat, lng) in coords])
     )
 
-def strava2kml(activities):
-  return """
-<?xml version="1.0" encoding="UTF-8"?>
+@lru_cache(maxsize=128, typed=False)
+def strava2kml(username):
+  access_token = User.objects.get(username=username).profile.strava_auth_token
+  r = requests.get('https://www.strava.com/api/v3/athlete/activities', headers={
+    'Authorization': 'Bearer %s' % access_token,
+  })
+  activities = r.json()
+  return """<?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
   <Document>
     <Style id="blueLine">
@@ -90,5 +126,4 @@ def strava2kml(activities):
     </Style>
 %s
   </Document>
-</kml>
-""" % '\n'.join([activity2kml(act['name'], act['map']['summary_polyline'], i) for i, act in enumerate(activities)])
+</kml>""" % '\n'.join([activity2kml(act, i) for i, act in enumerate(activities)])

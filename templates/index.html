@@ -18,6 +18,8 @@
     <link rel="icon" href="{% static "favicon.png" %}">
     <title>{{title}}</title>
   </head>
+  <script>user = {{ user|safe }}</script>
+
 
   <body>
     <div id="app"></div>

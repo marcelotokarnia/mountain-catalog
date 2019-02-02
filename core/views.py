@@ -16,13 +16,13 @@ def authenticate(request):
     'grant_type': 'authorization_code'
   })
   strava_content = r.json()
-  email = strava_content['athlete']['email']
-  user = User.objects.filter(email=email).first()
+  username = strava_content['athlete']['username']
+  user = User.objects.filter(username=username).first()
   if not user:
     first_name = strava_content['athlete']['firstname']
     last_name = strava_content['athlete']['lastname']
     username = strava_content['athlete']['username']
-    user = User(email=email, first_name=first_name, last_name=last_name, username=username)
+    user = User(email='{username}@gmail.com'.format(username=username), first_name=first_name, last_name=last_name, username=username)
     user.save()
   user.profile.strava_auth_token = strava_content['access_token']
   user.profile.strava_refresh_token = strava_content['refresh_token']
@@ -30,7 +30,7 @@ def authenticate(request):
   login(request, user)
   return HttpResponse(status=204)
 
-def get_strava_kml(request, username):
+def get_strava_kml(request, username, seed):
   response = HttpResponse(strava2kml(username), content_type='application/vnd.google-earth.kml+xml')
   response['Content-Disposition'] = 'attachment; filename=strava.kml'
   response['Access-Control-Allow-Origin'] = '*'

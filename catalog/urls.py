@@ -25,7 +25,7 @@ from core.views import authenticate, get_strava_kml
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^authenticate$', authenticate),
-    url(r'^get_strava_kml/(?P<username>[\w.@+-]+)$', get_strava_kml),
+    url(r'^get_strava_kml/(?P<username>[\w.@+-]+)/(?P<seed>[\w.@+-]+)$', get_strava_kml),
     url(r'^graphql', GraphQLView.as_view(graphiql=True)),
     url(r'', index, name="index"),
 ]

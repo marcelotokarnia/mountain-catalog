@@ -1,5 +1,5 @@
 import polyline
-from functools import lru_cache
+from datetime import datetime
 from django.contrib.auth.models import User
 import requests
 
@@ -16,12 +16,12 @@ def elapsed_time(elapsed):
   return '%s%ds' % (time, seconds)
 
 def get_activity_description(activity):
-  return """📅 {startdate} ({elapsed}) <br><br>
-  🏁 {distance} <br>
-  🏅 {achievements} <br>
-  ⛰️ {elevation} <br>
-  ⌚ {speed_pace} <br>""".format(
-    startdate=activity['start_date_local'],
+  return """<div style="line-height: 10px;">📅 {startdate} ({elapsed}) <br></br><br></br>
+  🏁 {distance} <br></br>
+  🏅 {achievements}<br></br>
+  ⛰️ {elevation} <br></br>
+  ⌚ {speed_pace} <br></br></div>""".format(
+    startdate=datetime.strptime(activity['start_date_local'], '%Y-%m-%dT%H:%M:%SZ').strftime('%d/%M/%y'),
     elapsed=elapsed_time(activity['elapsed_time']),
     distance='%.2f km' % (activity['distance'] / 1000),
     achievements='%s' % activity['achievement_count'],
@@ -66,7 +66,6 @@ def activity2kml(activity, i):
       coordinates='\n                    '.join(['%s,%s,2357' % (lng,lat) for (lat, lng) in coords])
     )
 
-@lru_cache(maxsize=128, typed=False)
 def strava2kml(username):
   access_token = User.objects.get(username=username).profile.strava_auth_token
   r = requests.get('https://www.strava.com/api/v3/athlete/activities', headers={

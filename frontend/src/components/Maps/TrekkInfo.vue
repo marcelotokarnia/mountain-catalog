@@ -13,7 +13,7 @@
     <div v-html="$formatMessage({id: 'maps.trekk-info.distance'}, {
       distance: mountain.distance
     })" />
-    <img v-if="mountain.image" :src="mountain.image" />
+    <img v-if="mountain.image" :src="mountain.image.url" />
   </gmap-info-window>
 </template>
 

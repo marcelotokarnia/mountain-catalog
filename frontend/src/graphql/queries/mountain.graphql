@@ -8,5 +8,17 @@ query($id: String, $position: Position) {
     region
     createdBy
     curiosities
+    video {
+      link
+      provider
+      votes
+      createdBy
+    }
+    text {
+      title
+      record
+      votes
+      createdBy
+    }
   }
 }

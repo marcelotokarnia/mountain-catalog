@@ -1,7 +1,8 @@
-import Maps from '@components/Maps'
-import MountainProfile from '@components/MountainProfile'
-import UserProfile from '@components/UserProfile'
-import StravaLogin from '@components/login/StravaLogin'
+import Maps from '@pages/Maps'
+import MountainProfile from '@pages/MountainProfile'
+import StravaLogin from '@pages/StravaLogin'
+import UserProfile from '@pages/UserProfile'
+
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 

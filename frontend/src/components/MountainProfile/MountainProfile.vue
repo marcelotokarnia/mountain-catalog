@@ -3,7 +3,7 @@
     <div v-if="loading">LOADING</div>
     <div v-if="!loading && mountain">
       <div>
-        <img v-if="mountain.image" :src="mountain.image">
+        <img v-if="mountain.image" :src="mountain.image.url">
         <p v-html="`${mountain.name} - ${mountain.elevation}m`" />
       </div>
       <div>
@@ -25,6 +25,29 @@
       <div v-html="$formatMessage({id: 'mountain-profile.created_by'}, {
         createdBy: mountain.createdBy
       })" />
+      <div v-if="mountain.image">
+        <hr/>
+        <div v-html="$formatMessage({id: 'mountain-profile.image'})" />
+        <h2>{{mountain.image.title}}</h2>
+        <div>{{mountain.image.url}}</div>
+        <div>{{mountain.image.votes}}</div>
+        <div>{{mountain.image.createdBy}}</div>
+      </div>
+      <div v-if="mountain.text">
+        <hr/>
+        <div v-html="$formatMessage({id: 'mountain-profile.text'})" />
+        <h2>{{mountain.text.title}}</h2>
+        <div>{{mountain.text.record}}</div>
+        <div>{{mountain.text.votes}}</div>
+        <div>{{mountain.text.createdBy}}</div>
+      </div>
+      <div v-if="mountain.video">
+        <hr/>
+        <div v-html="$formatMessage({id: 'mountain-profile.video'})" />
+        <a :href="mountain.video.link">{{mountain.video.provider}}</a>
+        <div>{{mountain.video.votes}}</div>
+        <div>{{mountain.video.createdBy}}</div>
+      </div>
     </div>
   </div>
 </template>

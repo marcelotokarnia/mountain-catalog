@@ -3,7 +3,7 @@
     <img
       v-if="mountain.image"
       class="card-img-top"
-      :src="mountain.image"
+      :src="mountain.image.url"
       :alt="$formatMessage({id: 'trekks-filter.mountain-card.image-alt'}, {name: mountain.name})"
     />
     <div class="card-body">

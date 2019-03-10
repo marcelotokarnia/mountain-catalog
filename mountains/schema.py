@@ -5,6 +5,48 @@ from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.geos import GEOSGeometry
 from utils.schema_utils import find_operation_field, get_selections
 
+class TextRecordType(graphene.ObjectType):
+    """ Text Record type (expedition tales about a given mountain) """
+    title = graphene.String()
+    created_by = graphene.String()
+    record = graphene.String()
+    votes = graphene.Int()
+
+    def __init__(self, record):
+        if record:
+            self.title = record.title
+            self.created_by = record.created_by.username
+            self.record = record.record
+            self.votes = record.votes
+
+class ImageRecordType(graphene.ObjectType):
+    """ images Record type (expedition images about a given mountain) """
+    title = graphene.String()
+    created_by = graphene.String()
+    url = graphene.String()
+    votes = graphene.Int()
+
+    def __init__(self, record):
+        if record:
+            self.title = record.title
+            self.created_by = record.created_by.username
+            self.url = record.image.url
+            self.votes = record.votes
+
+class VideoRecordType(graphene.ObjectType):
+    """ videos Record type (expedition videos about a given mountain) """
+    created_by = graphene.String()
+    link = graphene.String()
+    provider = graphene.String()
+    votes = graphene.Int()
+
+    def __init__(self, record):
+        if record:
+            self.created_by = record.created_by.username
+            self.link = record.link
+            self.provider = record.provider
+            self.votes = record.votes
+
 
 class PositionType(graphene.ObjectType):
     """ GeoLocation Point type """
@@ -21,11 +63,13 @@ class MountainType(graphene.ObjectType):
     """ Mountain representation """
     id = graphene.ID()
     distance = graphene.Float(description="Distance from given position on query")
-    position = graphene.Field(PositionType, description="Mountain peak geo point")
-    elevation = graphene.Int(description="Mountain height in meters")
+    position = graphene.Field(PositionType, description="Peak geo point")
+    elevation = graphene.Int(description="Height in meters")
     name = graphene.String()
     country = graphene.String()
-    image = graphene.String()
+    image = graphene.Field(ImageRecordType, description="Best voted pic")
+    text = graphene.Field(TextRecordType, description="Best voted record")
+    video = graphene.Field(VideoRecordType, description="Best voted vid")
     province = graphene.String()
     state = graphene.String()
     curiosities = graphene.String()
@@ -50,11 +94,23 @@ class MountainType(graphene.ObjectType):
         if 'image' in selections:
             imageRecord = mountain.images.order_by('-votes').first()
             if imageRecord:
-                self.image = imageRecord.image.url
+                self.image = ImageRecordType(imageRecord)
             else:
                 self.image = None
         else:
             self.image = None
+        if 'text' in selections:
+            textRecord = mountain.texts.order_by('-votes').first()
+            if textRecord:
+                self.text = TextRecordType(textRecord)
+            else:
+                self.text = None
+        if 'video' in selections:
+            videoRecord = mountain.videos.order_by('-votes').first()
+            if videoRecord:
+                self.video = VideoRecordType(videoRecord)
+            else:
+                self.video = None
 
 
 class SortingOptions(graphene.InputObjectType):

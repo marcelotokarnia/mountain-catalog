@@ -8,5 +8,10 @@ fragment mount on MountainType {
     lat
     lng
   }
-  image
+  image {
+    title
+    url
+    votes
+    createdBy
+  }
 }

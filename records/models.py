@@ -14,6 +14,7 @@ class TextRecord(BaseModel):
 
 
 class ImageRecord(BaseModel):
+    title = models.CharField(max_length=1024)
     created_by = models.ForeignKey(User, related_name="images", on_delete=models.CASCADE)
     image = models.ImageField(upload_to="mountain_images/")
     votes = models.IntegerField(default=0)

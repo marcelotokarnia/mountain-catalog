@@ -21,7 +21,7 @@ def get_activity_description(activity):
   🏅 {achievements}<br></br>
   ⛰️ {elevation} <br></br>
   ⌚ {speed_pace} <br></br></div>""".format(
-    startdate=datetime.strptime(activity['start_date_local'], '%Y-%m-%dT%H:%M:%SZ').strftime('%d/%M/%y'),
+    startdate=datetime.strptime(activity['start_date_local'], '%Y-%m-%dT%H:%M:%SZ').strftime('%d/%m/%y'),
     elapsed=elapsed_time(activity['elapsed_time']),
     distance='%.2f km' % (activity['distance'] / 1000),
     achievements='%s' % activity['achievement_count'],

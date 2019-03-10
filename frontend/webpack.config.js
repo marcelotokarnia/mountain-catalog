@@ -20,6 +20,7 @@ module.exports = {
     alias: {
       '@src': path.resolve(__dirname, './src'),
       '@components': path.resolve(__dirname, './src/components'),
+      '@pages': path.resolve(__dirname, './src/pages'),
       '@locales': path.resolve(__dirname, './src/locales'),
       '@typings': path.resolve(__dirname, './typings'),
       '@queries': path.resolve(__dirname, './src/graphql/queries'),

@@ -1,6 +1,6 @@
 {
   "name": "mountain-catalog",
-  "version": "1.0.0",
+  "version": "0.1.1",
   "description": "A catalog of mountains near you with a bunch of filters. A study on Vue and Typescript",
   "main": "src/index.ts",
   "scripts": {

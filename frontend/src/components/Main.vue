@@ -14,6 +14,7 @@
 <style scoped lang="stylus">
   .main
     max-width 95vw !important
+    height 95vh
     padding-top 4rem
     padding-bottom 3rem
 </style>

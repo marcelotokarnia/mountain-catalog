@@ -28,7 +28,7 @@ SECRET_KEY = '5xdv688mq8f^@4l1mf%e&wb^*vt6^+9w(p7h9#dqi^jzcg4(s0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', '1') == '1'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'www.trekkpedia.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition

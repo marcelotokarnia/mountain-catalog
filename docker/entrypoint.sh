@@ -1,6 +1,7 @@
 #!/bin/bash
 
 APP=/app
+GDAL_LIBRARY_PATH=/usr/lib/libgdal.so
 
 function waitpidkilled {
     pid=$1

@@ -80,7 +80,7 @@ Now, set your postgres user and database:
 
 `createuser -d -SRP $USERNAME$` (any username you wish to create, you will be prompted a $PASSWORD$)
 
-`createdb -O $DBNAME$ $USERNAME$` (again, any dbname you wish to create, repeat the username above, it will be the owner of the database)
+`createdb -O $USERNAME$ $DBNAME$` (again, any dbname you wish to create, repeat the username above, it will be the owner of the database)
 
 Now, database and user created you will need to install postgis extension on your database
 

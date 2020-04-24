@@ -32,4 +32,4 @@ Lint is made with `flake8` (python), `tslint` (typescript), `eslint` (js), `wota
 
 Author: [Marcelo Tokarnia](https://www.github.com/marcelotokarnia)
 
-Deployed at: [trekkpedia@Umbler](https://www.trekkpedia.com/)
+Deployed at: [AWS - EC2 instance](http://54.90.205.133/)

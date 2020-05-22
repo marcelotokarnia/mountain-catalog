@@ -1,8 +1,6 @@
 import { IPosition } from '@typings/geo'
 import { IMountain } from '@typings/mountains'
-// import { path } from 'ramda'
 const mapQuery = require('@queries/mapState.graphql')
-// const mePositionQuery = require('@queries/mePositionState.graphql')
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import * as Bluebird from 'bluebird'
 
@@ -101,26 +99,18 @@ const resolvers: IResolverObject = {
   Query: {
     async smePosition(_: any, {}: any, { cache }: IContext): Bluebird<any> {
       return new Bluebird((resolve: any, reject: any): void => {
-        // window.navigator.geolocation.getCurrentPosition(
-        //   ({coords: {latitude: lat, longitude: lng}}) => {
-        //     const data = {
-        //       smePosition: {
-        //         __typename: 'SMe',
-        //         position: {lat, lng , __typename: 'IPosition'},
-        //       },
-        //     }
-        //     cache.writeData({ data })
-        //     resolve()
-        //   },
-        // ) not supported on http :( anymore, and I don't want to pay to host this :(
-        const data = {
-          smePosition: {
-            __typename: 'SMe',
-            position: { lat: 59.35, lng: 18.07, __typename: 'IPosition' },
-          },
-        }
-        cache.writeData({ data })
-        resolve()
+        window.navigator.geolocation.getCurrentPosition(
+          ({ coords: { latitude: lat, longitude: lng } }) => {
+            const data = {
+              smePosition: {
+                __typename: 'SMe',
+                position: { lat, lng, __typename: 'IPosition' },
+              },
+            }
+            cache.writeData({ data })
+            resolve()
+          }
+        )
       })
     },
   },

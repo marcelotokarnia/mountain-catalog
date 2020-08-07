@@ -1,4 +1,4 @@
 gdal-bin
 libgdal-dev
-libxml
-libxml2
+libgdal27
+python3-gdal

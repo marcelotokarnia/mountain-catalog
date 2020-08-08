@@ -33,7 +33,7 @@ ALLOWED_HOSTS = ['*']
 
 
 # Application definition
-GDAL_LIBRARY_PATH = '/usr/lib/libgdal.so'
+GDAL_LIBRARY_PATH = '.apt/usr/lib/ogdi/libgdal.so'
 STRAVA_CLIENT_SECRET = os.getenv('STRAVA_CLIENT_SECRET', 'not_set')
 
 INSTALLED_APPS = [

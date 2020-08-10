@@ -33,8 +33,8 @@ ALLOWED_HOSTS = ['*']
 
 
 # Application definition
-GEOS_LIBRARY_PATH = '.apt/usr/lib/x86_64-linux-gnu/libgeos_c.so.1'
-GDAL_LIBRARY_PATH = '.apt/usr/lib/ogdi/libgdal.so'
+# GEOS_LIBRARY_PATH = '.apt/usr/lib/x86_64-linux-gnu/libgeos_c.so.1'
+# GDAL_LIBRARY_PATH = '.apt/usr/lib/ogdi/libgdal.so'
 STRAVA_CLIENT_SECRET = os.getenv('STRAVA_CLIENT_SECRET', 'not_set')
 
 INSTALLED_APPS = [

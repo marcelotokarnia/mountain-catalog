@@ -33,8 +33,9 @@ ALLOWED_HOSTS = ['*']
 
 
 # Application definition
-# GEOS_LIBRARY_PATH = '.apt/usr/lib/x86_64-linux-gnu/libgeos_c.so.1'
-# GDAL_LIBRARY_PATH = '.apt/usr/lib/ogdi/libgdal.so'
+GDAL_LIBRARY_PATH = os.environ.get('GDAL_LIBRARY_PATH')
+GEOS_LIBRARY_PATH = os.environ.get('GEOS_LIBRARY_PATH')
+# HEROKU WILL SET THOSE VARIABLES UP THERE
 STRAVA_CLIENT_SECRET = os.getenv('STRAVA_CLIENT_SECRET', 'not_set')
 
 INSTALLED_APPS = [
@@ -98,7 +99,7 @@ WSGI_APPLICATION = 'catalog.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL', 'not_set'),
+        default=os.getenv('DATABASE_URL', "postgres://user:pass@host:5432/db"),
         conn_max_age=500
     )
 }

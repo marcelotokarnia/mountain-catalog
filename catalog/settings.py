@@ -98,10 +98,10 @@ WSGI_APPLICATION = 'catalog.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DB_URL = os.getenv('DATABASE_URL', 'postgis://user:pass@host:5432/db')
-
+DB_URL = ':'.join((['postgis'] + DB_URL.split(":")[1:]))
 DATABASES = {
     'default': dj_database_url.config(
-        default=':'.join((['postgis'] + DB_URL.split(":")[1:])),
+        default=DB_URL,
         conn_max_age=500
     )
 }
@@ -143,7 +143,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
+secrets = locals()
+secrets['DATABASE_URL'] = DB_URL
+
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-django_heroku.settings(locals())
+django_heroku.settings(secrets)
 DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'

@@ -97,9 +97,11 @@ WSGI_APPLICATION = 'catalog.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
+DB_URL = os.getenv('DATABASE_URL', 'postgis://user:pass@host:5432/db')
+
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL', "postgres://user:pass@host:5432/db"),
+        default=':'.join((['postgis'] + DB_URL.split(":")[1:])),
         conn_max_age=500
     )
 }

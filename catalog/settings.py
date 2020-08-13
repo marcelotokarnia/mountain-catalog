@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 import dj_database_url
+import django_heroku
 from catalog.aws.conf import *  # noqa: F403,F401
 # https://www.codingforentrepreneurs.com/blog/s3-static-media-files-for-django/
 
@@ -32,9 +33,7 @@ ALLOWED_HOSTS = ['*']
 
 
 # Application definition
-GDAL_LIBRARY_PATH = os.getenv('GDAL_LIBRARY_PATH', 'not_set')
 STRAVA_CLIENT_SECRET = os.getenv('STRAVA_CLIENT_SECRET', 'not_set')
-STRAVA_ACCESS_TOKEN = os.getenv('STRAVA_ACCESS_TOKEN', 'not_set')
 
 INSTALLED_APPS = [
     'core',
@@ -87,7 +86,7 @@ TEMPLATES = [
     },
 ]
 
-DEFAULT_CHARSET='UTF-8'
+DEFAULT_CHARSET = 'UTF-8'
 
 WSGI_APPLICATION = 'catalog.wsgi.application'
 
@@ -140,4 +139,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.getenv('DJANGO_STATIC_ROOT', BASE_DIR)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+django_heroku.settings(locals())

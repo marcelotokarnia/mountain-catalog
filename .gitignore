@@ -10,7 +10,6 @@ __pycache__/
 .Python
 build/
 develop-eggs/
-dist/
 downloads/
 eggs/
 env
@@ -107,7 +106,6 @@ venv.bak/
 .mypy_cache/
 
 # frontend
-dist
 node_modules
 
 google-maps-key.ts
